@@ -2530,14 +2530,15 @@
         Для навігацыі ўключыце JavaScript. Усе слайды даступныя пры друку.
       </p></noscript
     >
-    <script src="js/data.js"></script>
-    <script src="js/presenter-core.js"></script>
-    <script src="js/app.js"></script>
     <div hidden role="alert" id="time-warning">
       <div>
         <span>Засталася хвіліна</span><strong>Лёша, трэба сканчваць</strong>
       </div>
       <button id="dismiss-time-warning" aria-label="Схаваць напамін">×</button>
     </div>
+    <!-- Initialize only after every presentation control has been parsed. -->
+    <script defer src="js/data.js"></script>
+    <script defer src="js/presenter-core.js"></script>
+    <script defer src="js/app.js"></script>
   </body>
 </html>
