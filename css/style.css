@@ -2013,30 +2013,6 @@ dialog a {
   margin-top: 9px;
   color: var(--muted);
 }
-.voice-settings {
-  border-top: 1px solid var(--line);
-  margin-top: 28px;
-  padding-top: 24px;
-}
-#voice-language {
-  width: 100%;
-  font: inherit;
-  background: var(--soft);
-  border: 1px solid var(--line);
-  padding: 10px;
-  border-radius: 6px;
-  margin-top: 9px;
-  color: var(--ink);
-}
-#voice-language:focus-visible {
-  outline: 3px solid var(--red);
-  outline-offset: 3px;
-}
-#voice-preview {
-  font-size: 15px;
-  color: var(--muted);
-  overflow-wrap: anywhere;
-}
 #timer-readout {
   font-size: 72px;
   line-height: 1;

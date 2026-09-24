@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import core from "../js/presenter-core.js";
-const { Countdown, parseVoiceCommand, formatTime } = core;
+const { Countdown, formatTime } = core;
 function clock() {
   let now = 0;
   const timer = new Countdown(() => now);
@@ -86,23 +86,4 @@ test("countdown rounds remaining fractions upward", () => {
   ]) {
     assert.equal(formatTime(ms), label);
   }
-});
-test("isolated Belarusian commands work with punctuation and casing", () => {
-  for (const command of ["далей", "Далей.", "  ДАЛЕЙ! ", "«далей»", "далее"])
-    assert.equal(parseVoiceCommand(command), 1);
-  for (const command of ["назад", "Назад!", "  НАЗАД.  "])
-    assert.equal(parseVoiceCommand(command), -1);
-});
-test("ordinary speech mentioning a command does not advance", () => {
-  for (const phrase of [
-    "",
-    "пайшлі далей",
-    "год назад",
-    "слова далей",
-    "паглядзім, што далей",
-    "далей назад",
-    "Лёша, трэба сканчваць",
-    "далейшыя планы",
-  ])
-    assert.equal(parseVoiceCommand(phrase), 0, phrase);
 });

@@ -40,22 +40,11 @@
       return { remaining, warn, running: this.running, started: this.started };
     }
   }
-  function parseVoiceCommand(transcript) {
-    const text = String(transcript)
-      .normalize("NFC")
-      .toLocaleLowerCase("be")
-      .replace(/[.,!?…:;«»“”"'’]/gu, "")
-      .replace(/\s+/gu, " ")
-      .trim();
-    if (text === "далей" || text === "далее") return 1;
-    if (text === "назад") return -1;
-    return 0;
-  }
   function formatTime(remaining) {
     const seconds = Math.max(0, Math.ceil(remaining / 1000));
     return `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
   }
-  const api = { Countdown, parseVoiceCommand, formatTime };
+  const api = { Countdown, formatTime };
   root.PresenterCore = api;
   if (typeof module === "object" && module.exports) module.exports = api;
 })(globalThis);

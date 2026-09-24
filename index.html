@@ -9,7 +9,7 @@
       content="Беларуская мова ў эпоху штучнага інтэлекту. Аляксей Картыннік: чатыры праекты і магчымасці супрацы з лінгвістамі."
     />
     <title>Беларуская мова ў эпоху ШІ · Аляксей Картыннік</title>
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/style.css?v=20260925-beeps" />
   </head>
   <body>
     <main id="viewport" aria-label="Прэзентацыя на 19 слайдаў">
@@ -2372,14 +2372,13 @@
       <div class="tools-group">
         <button id="motion" aria-pressed="true" title="Аўтаматычныя прыклады">
           Анімацыя: укл.</button
-        ><button id="mic" title="Плясканні і галасавыя каманды (M)">
-          Мікрафон</button
+        ><button id="mic" title="Кіраванне плясканнямі (M)">Мікрафон</button
         ><button id="timer" title="Пачаць выступ на 15 хвілін (T)">
           Пачаць · 15:00</button
         ><button
           id="timer-settings"
-          title="Налады таймера і праверка голасу"
-          aria-label="Налады таймера і праверка голасу"
+          title="Налады таймера і праверка сігналу"
+          aria-label="Налады таймера і праверка сігналу"
         >
           ◷</button
         ><button id="notes" title="Нататкі (N)">Нататкі</button
@@ -2424,7 +2423,7 @@
     </dialog>
     <dialog id="mic-dialog">
       <div class="dialog-head">
-        <h2>Плясканні і галасавыя каманды</h2>
+        <h2>Кіраванне плясканнямі</h2>
         <button data-close="" aria-label="Закрыць">×</button>
       </div>
       <p>
@@ -2450,35 +2449,8 @@
         Пакуль гэта акно адкрыта, плясканні толькі правяраюцца. Зачыніце яго
         перад выступам. Рэха, воплескі і рэзкія гукі могуць выклікаць памылковы
         пераход. Праверце адчувальнасць у зале. Клавіша M адкрывае наладку,
-        Shift+M выключае абодва рэжымы.
+        Shift+M выключае мікрафон.
       </p>
-      <section class="voice-settings">
-        <h3>Словы «далей» і «назад»</h3>
-        <p>
-          Прамаўляйце каманду асобна, з кароткай паўзай. Пакуль гэта акно
-          адкрыта, каманды толькі правяраюцца.
-        </p>
-        <p class="dialog-hint">
-          Гэта асобны рэжым: браўзер можа адпраўляць гук сэрвісу распазнавання.
-          Патрэбны інтэрнэт і падтрымка Web Speech. Плясканні працуюць лакальна.
-        </p>
-        <label for="voice-language">Мова распазнавання</label
-        ><select id="voice-language">
-          <option value="be-BY">Беларуская</option>
-          <option value="ru-RU">Руская — запасны варыянт</option>
-        </select>
-        <p id="voice-status" role="status">Галасавыя каманды выключаныя.</p>
-        <p id="voice-preview">Праверка: скажыце «далей» або «назад».</p>
-        <div class="dialog-actions">
-          <button id="voice-start" class="primary">
-            Уключыць галасавыя каманды</button
-          ><button id="voice-stop" disabled>Выключыць каманды</button>
-        </div>
-        <p class="dialog-hint">
-          Калі беларуская мова недаступная, выберыце запасны варыянт. «Далее»
-          таксама распазнаецца як «далей». Shift+M выключае абодва рэжымы.
-        </p>
-      </section>
     </dialog>
     <dialog id="timer-dialog">
       <div class="dialog-head">
@@ -2486,11 +2458,14 @@
         <button data-close="" aria-label="Закрыць">×</button>
       </div>
       <p id="timer-readout">15:00</p>
-      <p>За хвіліну да канца прагучыць: <b>«Лёша, трэба сканчваць»</b>.</p>
+      <p>
+        За хвіліну да канца прагучаць <b>тры кароткія пікі</b>. Гук ствараецца ў
+        браўзеры без знешніх сэрвісаў.
+      </p>
       <div class="dialog-actions">
         <button id="timer-toggle" class="primary">Пачаць выступ</button
         ><button id="timer-reset">Скінуць на 15:00</button
-        ><button id="timer-test">Праверыць голас</button>
+        ><button id="timer-test">Праверыць сігнал</button>
       </div>
       <p id="timer-audio-status" class="dialog-hint" role="status">
         Адлік пачынаецца кнопкай «Пачаць» або пры першым уключэнні поўнага
@@ -2507,7 +2482,7 @@
         <li>Home / End — першы / апошні слайд</li>
         <li>F — поўны экран і пачатак выступу</li>
         <li>O — агляд · N — нататкі · S — крыніцы</li>
-        <li>M — мікрафон · Shift+M — выключыць плясканні і каманды</li>
+        <li>M — мікрафон · Shift+M — выключыць мікрафон</li>
         <li>T — пачаць або прыпыніць адлік 15 хвілін</li>
         <li>Esc — закрыць акно / выйсці з поўнага экрана</li>
       </ul>
@@ -2531,14 +2506,12 @@
       </p></noscript
     >
     <div hidden role="alert" id="time-warning">
-      <div>
-        <span>Засталася хвіліна</span><strong>Лёша, трэба сканчваць</strong>
-      </div>
+      <div><span>Час выступу</span><strong>Засталася 1 хвіліна</strong></div>
       <button id="dismiss-time-warning" aria-label="Схаваць напамін">×</button>
     </div>
     <!-- Initialize only after every presentation control has been parsed. -->
-    <script defer src="js/data.js"></script>
-    <script defer src="js/presenter-core.js"></script>
-    <script defer src="js/app.js"></script>
+    <script defer src="js/data.js?v=20260925-beeps"></script>
+    <script defer src="js/presenter-core.js?v=20260925-beeps"></script>
+    <script defer src="js/app.js?v=20260925-beeps"></script>
   </body>
 </html>
