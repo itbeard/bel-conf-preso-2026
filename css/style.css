@@ -8,6 +8,7 @@
   --scale: 1;
   --sw: 1600px;
   --sh: 900px;
+  --toolbar-height: 68px;
 }
 * {
   box-sizing: border-box;
@@ -24,6 +25,10 @@ body {
 body {
   background: #eeeef0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
 }
 button,
 input,
@@ -58,11 +63,16 @@ figure {
   margin: 0;
 }
 #viewport {
-  height: calc(100% - 68px);
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 12px 18px 0;
+}
+:where(:fullscreen) #viewport {
+  padding: 0;
 }
 #frame {
   width: var(--sw);
@@ -896,12 +906,14 @@ h3 {
   color: var(--red);
 }
 .toolbar {
-  height: 68px;
+  min-height: 68px;
+  flex: none;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 20px;
-  padding: 0 max(22px, calc((100vw - 1350px) / 2));
+  gap: 4px 20px;
+  padding: 10px max(22px, calc((100vw - 1350px) / 2));
   font-size: 14px;
 }
 .nav-group,
@@ -909,6 +921,14 @@ h3 {
   display: flex;
   align-items: center;
   gap: 6px;
+}
+.nav-group {
+  flex-shrink: 0;
+}
+.tools-group {
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 0;
 }
 .toolbar button {
   background: transparent;
@@ -1095,7 +1115,7 @@ dialog a {
 }
 #toast {
   position: fixed;
-  bottom: 84px;
+  bottom: calc(var(--toolbar-height) + 16px);
   left: 50%;
   transform: translateX(-50%);
   background: var(--ink);
@@ -1186,11 +1206,14 @@ dialog a {
   body {
     overflow: auto;
     background: white;
+    display: block;
+    height: auto;
+    min-height: 100dvh;
   }
   #viewport {
     height: auto;
     display: block;
-    padding: 0 0 75px;
+    padding: 0 0 calc(var(--toolbar-height) + 12px);
   }
   #frame {
     width: 100%;
@@ -1209,7 +1232,7 @@ dialog a {
     position: relative;
     inset: auto;
     padding: 34px 24px 35px;
-    min-height: calc(100svh - 70px);
+    min-height: calc(100svh - var(--toolbar-height));
   }
   .slide.active {
     display: block;
@@ -1614,7 +1637,9 @@ dialog a {
     backdrop-filter: blur(12px);
     width: 100%;
     z-index: 3;
-    height: 64px;
+    min-height: 64px;
+    padding: 8px 10px;
+    justify-content: center;
   }
   .toolbar button {
     font-size: 12px;
@@ -1659,6 +1684,7 @@ dialog a {
   }
   html,
   body {
+    display: block;
     height: auto;
     overflow: visible;
     background: white;
@@ -2026,7 +2052,7 @@ dialog a {
 #time-warning {
   position: fixed;
   left: 50%;
-  bottom: 86px;
+  bottom: calc(var(--toolbar-height) + 18px);
   transform: translateX(-50%);
   display: flex;
   align-items: center;

@@ -25,19 +25,30 @@ const escapeHTML = (s) =>
       ],
   );
 function fit() {
+  const toolbarHeight = document
+    .querySelector(".toolbar")
+    .getBoundingClientRect().height;
+  document.documentElement.style.setProperty(
+    "--toolbar-height",
+    toolbarHeight + "px",
+  );
   if (matchMedia("(max-width:700px) and (orientation:portrait)").matches)
     return;
-  const r = $("viewport").getBoundingClientRect();
-  const scale = Math.min((r.width - 36) / 1600, (r.height - 12) / 900);
-  document.documentElement.style.setProperty("--scale", Math.max(0.1, scale));
-  document.documentElement.style.setProperty(
-    "--sw",
-    1600 * Math.max(0.1, scale) + "px",
-  );
-  document.documentElement.style.setProperty(
-    "--sh",
-    900 * Math.max(0.1, scale) + "px",
-  );
+  const viewport = $("viewport");
+  const r = viewport.getBoundingClientRect();
+  const padding = getComputedStyle(viewport);
+  const width =
+    r.width -
+    parseFloat(padding.paddingLeft) -
+    parseFloat(padding.paddingRight);
+  const height =
+    r.height -
+    parseFloat(padding.paddingTop) -
+    parseFloat(padding.paddingBottom);
+  const scale = Math.max(0, Math.min(width / 1600, height / 900));
+  document.documentElement.style.setProperty("--scale", scale);
+  document.documentElement.style.setProperty("--sw", 1600 * scale + "px");
+  document.documentElement.style.setProperty("--sh", 900 * scale + "px");
 }
 function toast(message) {
   clearTimeout(toastTimeout);
@@ -459,6 +470,12 @@ $("viewport").addEventListener(
 );
 window.addEventListener("resize", fit);
 document.addEventListener("fullscreenchange", fit);
+window.visualViewport?.addEventListener("resize", fit);
+if (window.ResizeObserver) {
+  const layoutObserver = new ResizeObserver(fit);
+  layoutObserver.observe($("viewport"));
+  layoutObserver.observe(document.querySelector(".toolbar"));
+}
 window.addEventListener("hashchange", () => {
   const n = Number(location.hash.match(/^#slide-(\d+)$/)?.[1]);
   if (n >= 1 && n <= slides.length) go(n - 1, false);
