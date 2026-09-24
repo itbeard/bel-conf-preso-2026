@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <main id="viewport" aria-label="Прэзентацыя на 16 слайдаў">
+    <main id="viewport" aria-label="Прэзентацыя на 19 слайдаў">
       <div id="frame">
         <div id="deck">
           <section
@@ -23,7 +23,7 @@
           >
             <header class="slide-header">
               <p>Беларуская мова ў эпоху ШІ</p>
-              <span>01 / 16</span>
+              <span>01 / 19</span>
             </header>
             <div class="bio">
               <div>
@@ -83,7 +83,7 @@
                   >itbeard.com ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
@@ -94,7 +94,7 @@
           >
             <header class="slide-header">
               <p>Мае праекты</p>
-              <span>02 / 16</span>
+              <span>02 / 19</span>
             </header>
             <h2>
               Размова пра тэхналогіі.<br /><span class="red"
@@ -140,18 +140,1225 @@
                   >itbeard.com ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
+            </footer>
+          </section>
+          <section
+            aria-hidden="true"
+            aria-label="3. Як выглядае нейрасетка"
+            data-index="2"
+            class="slide network-slide"
+          >
+            <header class="slide-header">
+              <p>Як працуе моўная мадэль · 1 / 3</p>
+              <span>03 / 19</span>
+            </header>
+            <h2>
+              Нейрасетка.<br /><span class="red">Сувязі, якія вучацца.</span>
+            </h2>
+            <div class="network-visual">
+              <svg
+                viewBox="0 0 1120 470"
+                role="img"
+                aria-labelledby="network-title network-desc"
+              >
+                <title id="network-title">
+                  Сігнал праходзіць праз пласты нейрасеткі
+                </title>
+                <desc id="network-desc">
+                  Злева ўваходныя даныя, у цэнтры звязаныя паміж сабой
+                  вылічальныя вузлы, справа вынік. Сіла сувязяў змяняецца падчас
+                  навучання.
+                </desc>
+                <path
+                  class="nn-edge"
+                  style="--delay: 0s; --weight: 0.5"
+                  d="M100 158.5 L330 82"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0s"
+                  pathLength="100"
+                  d="M100 158.5 L330 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.06s; --weight: 1"
+                  d="M100 158.5 L330 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.11s; --weight: 1.5"
+                  d="M100 158.5 L330 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.17s; --weight: 0.5"
+                  d="M100 158.5 L330 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.17s"
+                  pathLength="100"
+                  d="M100 158.5 L330 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.22s; --weight: 1"
+                  d="M100 158.5 L330 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.28s; --weight: 1.5"
+                  d="M100 158.5 L330 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.33s; --weight: 0.5"
+                  d="M100 158.5 L330 388"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.33s"
+                  pathLength="100"
+                  d="M100 158.5 L330 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.06s; --weight: 1"
+                  d="M100 209.5 L330 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.11s; --weight: 1.5"
+                  d="M100 209.5 L330 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.17s; --weight: 0.5"
+                  d="M100 209.5 L330 184"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.17s"
+                  pathLength="100"
+                  d="M100 209.5 L330 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.22s; --weight: 1"
+                  d="M100 209.5 L330 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.28s; --weight: 1.5"
+                  d="M100 209.5 L330 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.33s; --weight: 0.5"
+                  d="M100 209.5 L330 337"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.33s"
+                  pathLength="100"
+                  d="M100 209.5 L330 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.39s; --weight: 1"
+                  d="M100 209.5 L330 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.11s; --weight: 1.5"
+                  d="M100 260.5 L330 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.17s; --weight: 0.5"
+                  d="M100 260.5 L330 133"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.17s"
+                  pathLength="100"
+                  d="M100 260.5 L330 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.22s; --weight: 1"
+                  d="M100 260.5 L330 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.28s; --weight: 1.5"
+                  d="M100 260.5 L330 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.33s; --weight: 0.5"
+                  d="M100 260.5 L330 286"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.33s"
+                  pathLength="100"
+                  d="M100 260.5 L330 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.39s; --weight: 1"
+                  d="M100 260.5 L330 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.44s; --weight: 1.5"
+                  d="M100 260.5 L330 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.17s; --weight: 0.5"
+                  d="M100 311.5 L330 82"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.17s"
+                  pathLength="100"
+                  d="M100 311.5 L330 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.22s; --weight: 1"
+                  d="M100 311.5 L330 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.28s; --weight: 1.5"
+                  d="M100 311.5 L330 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.33s; --weight: 0.5"
+                  d="M100 311.5 L330 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.33s"
+                  pathLength="100"
+                  d="M100 311.5 L330 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.39s; --weight: 1"
+                  d="M100 311.5 L330 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.44s; --weight: 1.5"
+                  d="M100 311.5 L330 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.49s; --weight: 0.5"
+                  d="M100 311.5 L330 388"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.49s"
+                  pathLength="100"
+                  d="M100 311.5 L330 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.65s; --weight: 0.5"
+                  d="M330 82 L560 82"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.65s"
+                  pathLength="100"
+                  d="M330 82 L560 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.71s; --weight: 1"
+                  d="M330 82 L560 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.76s; --weight: 1.5"
+                  d="M330 82 L560 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.82s; --weight: 0.5"
+                  d="M330 82 L560 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.82s"
+                  pathLength="100"
+                  d="M330 82 L560 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.87s; --weight: 1"
+                  d="M330 82 L560 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.93s; --weight: 1.5"
+                  d="M330 82 L560 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.98s; --weight: 0.5"
+                  d="M330 82 L560 388"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.98s"
+                  pathLength="100"
+                  d="M330 82 L560 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.71s; --weight: 1"
+                  d="M330 133 L560 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.76s; --weight: 1.5"
+                  d="M330 133 L560 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.82s; --weight: 0.5"
+                  d="M330 133 L560 184"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.82s"
+                  pathLength="100"
+                  d="M330 133 L560 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.87s; --weight: 1"
+                  d="M330 133 L560 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.93s; --weight: 1.5"
+                  d="M330 133 L560 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.98s; --weight: 0.5"
+                  d="M330 133 L560 337"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.98s"
+                  pathLength="100"
+                  d="M330 133 L560 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.04s; --weight: 1"
+                  d="M330 133 L560 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.76s; --weight: 1.5"
+                  d="M330 184 L560 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.82s; --weight: 0.5"
+                  d="M330 184 L560 133"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.82s"
+                  pathLength="100"
+                  d="M330 184 L560 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.87s; --weight: 1"
+                  d="M330 184 L560 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.93s; --weight: 1.5"
+                  d="M330 184 L560 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.98s; --weight: 0.5"
+                  d="M330 184 L560 286"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.98s"
+                  pathLength="100"
+                  d="M330 184 L560 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.04s; --weight: 1"
+                  d="M330 184 L560 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.09s; --weight: 1.5"
+                  d="M330 184 L560 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.82s; --weight: 0.5"
+                  d="M330 235 L560 82"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.82s"
+                  pathLength="100"
+                  d="M330 235 L560 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.87s; --weight: 1"
+                  d="M330 235 L560 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.93s; --weight: 1.5"
+                  d="M330 235 L560 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.98s; --weight: 0.5"
+                  d="M330 235 L560 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.98s"
+                  pathLength="100"
+                  d="M330 235 L560 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.04s; --weight: 1"
+                  d="M330 235 L560 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.09s; --weight: 1.5"
+                  d="M330 235 L560 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.15s; --weight: 0.5"
+                  d="M330 235 L560 388"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.15s"
+                  pathLength="100"
+                  d="M330 235 L560 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.87s; --weight: 1"
+                  d="M330 286 L560 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.93s; --weight: 1.5"
+                  d="M330 286 L560 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.98s; --weight: 0.5"
+                  d="M330 286 L560 184"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.98s"
+                  pathLength="100"
+                  d="M330 286 L560 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.04s; --weight: 1"
+                  d="M330 286 L560 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.09s; --weight: 1.5"
+                  d="M330 286 L560 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.15s; --weight: 0.5"
+                  d="M330 286 L560 337"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.15s"
+                  pathLength="100"
+                  d="M330 286 L560 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.2s; --weight: 1"
+                  d="M330 286 L560 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.93s; --weight: 1.5"
+                  d="M330 337 L560 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.98s; --weight: 0.5"
+                  d="M330 337 L560 133"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.98s"
+                  pathLength="100"
+                  d="M330 337 L560 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.04s; --weight: 1"
+                  d="M330 337 L560 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.09s; --weight: 1.5"
+                  d="M330 337 L560 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.15s; --weight: 0.5"
+                  d="M330 337 L560 286"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.15s"
+                  pathLength="100"
+                  d="M330 337 L560 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.2s; --weight: 1"
+                  d="M330 337 L560 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.25s; --weight: 1.5"
+                  d="M330 337 L560 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 0.98s; --weight: 0.5"
+                  d="M330 388 L560 82"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 0.98s"
+                  pathLength="100"
+                  d="M330 388 L560 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.04s; --weight: 1"
+                  d="M330 388 L560 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.09s; --weight: 1.5"
+                  d="M330 388 L560 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.15s; --weight: 0.5"
+                  d="M330 388 L560 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.15s"
+                  pathLength="100"
+                  d="M330 388 L560 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.2s; --weight: 1"
+                  d="M330 388 L560 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.25s; --weight: 1.5"
+                  d="M330 388 L560 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.31s; --weight: 0.5"
+                  d="M330 388 L560 388"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.31s"
+                  pathLength="100"
+                  d="M330 388 L560 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.3s; --weight: 0.5"
+                  d="M560 82 L790 82"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.3s"
+                  pathLength="100"
+                  d="M560 82 L790 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.35s; --weight: 1"
+                  d="M560 82 L790 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.41s; --weight: 1.5"
+                  d="M560 82 L790 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.47s; --weight: 0.5"
+                  d="M560 82 L790 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.47s"
+                  pathLength="100"
+                  d="M560 82 L790 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.52s; --weight: 1"
+                  d="M560 82 L790 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.58s; --weight: 1.5"
+                  d="M560 82 L790 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.63s; --weight: 0.5"
+                  d="M560 82 L790 388"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.63s"
+                  pathLength="100"
+                  d="M560 82 L790 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.35s; --weight: 1"
+                  d="M560 133 L790 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.41s; --weight: 1.5"
+                  d="M560 133 L790 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.47s; --weight: 0.5"
+                  d="M560 133 L790 184"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.47s"
+                  pathLength="100"
+                  d="M560 133 L790 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.52s; --weight: 1"
+                  d="M560 133 L790 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.58s; --weight: 1.5"
+                  d="M560 133 L790 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.63s; --weight: 0.5"
+                  d="M560 133 L790 337"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.63s"
+                  pathLength="100"
+                  d="M560 133 L790 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.69s; --weight: 1"
+                  d="M560 133 L790 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.41s; --weight: 1.5"
+                  d="M560 184 L790 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.47s; --weight: 0.5"
+                  d="M560 184 L790 133"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.47s"
+                  pathLength="100"
+                  d="M560 184 L790 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.52s; --weight: 1"
+                  d="M560 184 L790 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.58s; --weight: 1.5"
+                  d="M560 184 L790 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.63s; --weight: 0.5"
+                  d="M560 184 L790 286"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.63s"
+                  pathLength="100"
+                  d="M560 184 L790 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.69s; --weight: 1"
+                  d="M560 184 L790 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.74s; --weight: 1.5"
+                  d="M560 184 L790 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.47s; --weight: 0.5"
+                  d="M560 235 L790 82"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.47s"
+                  pathLength="100"
+                  d="M560 235 L790 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.52s; --weight: 1"
+                  d="M560 235 L790 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.58s; --weight: 1.5"
+                  d="M560 235 L790 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.63s; --weight: 0.5"
+                  d="M560 235 L790 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.63s"
+                  pathLength="100"
+                  d="M560 235 L790 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.69s; --weight: 1"
+                  d="M560 235 L790 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.74s; --weight: 1.5"
+                  d="M560 235 L790 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.79s; --weight: 0.5"
+                  d="M560 235 L790 388"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.79s"
+                  pathLength="100"
+                  d="M560 235 L790 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.52s; --weight: 1"
+                  d="M560 286 L790 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.58s; --weight: 1.5"
+                  d="M560 286 L790 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.63s; --weight: 0.5"
+                  d="M560 286 L790 184"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.63s"
+                  pathLength="100"
+                  d="M560 286 L790 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.69s; --weight: 1"
+                  d="M560 286 L790 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.74s; --weight: 1.5"
+                  d="M560 286 L790 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.79s; --weight: 0.5"
+                  d="M560 286 L790 337"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.79s"
+                  pathLength="100"
+                  d="M560 286 L790 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.85s; --weight: 1"
+                  d="M560 286 L790 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.58s; --weight: 1.5"
+                  d="M560 337 L790 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.63s; --weight: 0.5"
+                  d="M560 337 L790 133"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.63s"
+                  pathLength="100"
+                  d="M560 337 L790 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.69s; --weight: 1"
+                  d="M560 337 L790 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.74s; --weight: 1.5"
+                  d="M560 337 L790 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.79s; --weight: 0.5"
+                  d="M560 337 L790 286"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.79s"
+                  pathLength="100"
+                  d="M560 337 L790 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.85s; --weight: 1"
+                  d="M560 337 L790 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.91s; --weight: 1.5"
+                  d="M560 337 L790 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.63s; --weight: 0.5"
+                  d="M560 388 L790 82"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.63s"
+                  pathLength="100"
+                  d="M560 388 L790 82"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.69s; --weight: 1"
+                  d="M560 388 L790 133"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.74s; --weight: 1.5"
+                  d="M560 388 L790 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.79s; --weight: 0.5"
+                  d="M560 388 L790 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.79s"
+                  pathLength="100"
+                  d="M560 388 L790 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.85s; --weight: 1"
+                  d="M560 388 L790 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.91s; --weight: 1.5"
+                  d="M560 388 L790 337"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.96s; --weight: 0.5"
+                  d="M560 388 L790 388"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.96s"
+                  pathLength="100"
+                  d="M560 388 L790 388"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 1.95s; --weight: 0.5"
+                  d="M790 82 L1020 184"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 1.95s"
+                  pathLength="100"
+                  d="M790 82 L1020 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.01s; --weight: 1"
+                  d="M790 82 L1020 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.06s; --weight: 1.5"
+                  d="M790 82 L1020 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.01s; --weight: 1"
+                  d="M790 133 L1020 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.06s; --weight: 1.5"
+                  d="M790 133 L1020 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.12s; --weight: 0.5"
+                  d="M790 133 L1020 286"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 2.12s"
+                  pathLength="100"
+                  d="M790 133 L1020 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.06s; --weight: 1.5"
+                  d="M790 184 L1020 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.12s; --weight: 0.5"
+                  d="M790 184 L1020 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 2.12s"
+                  pathLength="100"
+                  d="M790 184 L1020 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.17s; --weight: 1"
+                  d="M790 184 L1020 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.12s; --weight: 0.5"
+                  d="M790 235 L1020 184"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 2.12s"
+                  pathLength="100"
+                  d="M790 235 L1020 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.17s; --weight: 1"
+                  d="M790 235 L1020 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.23s; --weight: 1.5"
+                  d="M790 235 L1020 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.17s; --weight: 1"
+                  d="M790 286 L1020 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.23s; --weight: 1.5"
+                  d="M790 286 L1020 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.28s; --weight: 0.5"
+                  d="M790 286 L1020 286"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 2.28s"
+                  pathLength="100"
+                  d="M790 286 L1020 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.23s; --weight: 1.5"
+                  d="M790 337 L1020 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.28s; --weight: 0.5"
+                  d="M790 337 L1020 235"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 2.28s"
+                  pathLength="100"
+                  d="M790 337 L1020 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.33s; --weight: 1"
+                  d="M790 337 L1020 286"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.28s; --weight: 0.5"
+                  d="M790 388 L1020 184"
+                />
+                <path
+                  class="nn-signal"
+                  style="--delay: 2.28s"
+                  pathLength="100"
+                  d="M790 388 L1020 184"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.33s; --weight: 1"
+                  d="M790 388 L1020 235"
+                />
+                <path
+                  class="nn-edge"
+                  style="--delay: 2.39s; --weight: 1.5"
+                  d="M790 388 L1020 286"
+                />
+                <g class="nn-neuron" style="--delay: 0s">
+                  <circle class="nn-halo" cx="100" cy="158.5" r="24" />
+                  <circle class="nn-node" cx="100" cy="158.5" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 0.07s">
+                  <circle class="nn-halo" cx="100" cy="209.5" r="24" />
+                  <circle class="nn-node" cx="100" cy="209.5" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 0.14s">
+                  <circle class="nn-halo" cx="100" cy="260.5" r="24" />
+                  <circle class="nn-node" cx="100" cy="260.5" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 0.21s">
+                  <circle class="nn-halo" cx="100" cy="311.5" r="24" />
+                  <circle class="nn-node" cx="100" cy="311.5" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 0.65s">
+                  <circle class="nn-halo" cx="330" cy="82" r="24" />
+                  <circle class="nn-node" cx="330" cy="82" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 0.72s">
+                  <circle class="nn-halo" cx="330" cy="133" r="24" />
+                  <circle class="nn-node" cx="330" cy="133" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 0.79s">
+                  <circle class="nn-halo" cx="330" cy="184" r="24" />
+                  <circle class="nn-node" cx="330" cy="184" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 0.86s">
+                  <circle class="nn-halo" cx="330" cy="235" r="24" />
+                  <circle class="nn-node" cx="330" cy="235" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 0.93s">
+                  <circle class="nn-halo" cx="330" cy="286" r="24" />
+                  <circle class="nn-node" cx="330" cy="286" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1s">
+                  <circle class="nn-halo" cx="330" cy="337" r="24" />
+                  <circle class="nn-node" cx="330" cy="337" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.07s">
+                  <circle class="nn-halo" cx="330" cy="388" r="24" />
+                  <circle class="nn-node" cx="330" cy="388" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.3s">
+                  <circle class="nn-halo" cx="560" cy="82" r="24" />
+                  <circle class="nn-node" cx="560" cy="82" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.37s">
+                  <circle class="nn-halo" cx="560" cy="133" r="24" />
+                  <circle class="nn-node" cx="560" cy="133" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.44s">
+                  <circle class="nn-halo" cx="560" cy="184" r="24" />
+                  <circle class="nn-node" cx="560" cy="184" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.51s">
+                  <circle class="nn-halo" cx="560" cy="235" r="24" />
+                  <circle class="nn-node" cx="560" cy="235" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.58s">
+                  <circle class="nn-halo" cx="560" cy="286" r="24" />
+                  <circle class="nn-node" cx="560" cy="286" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.65s">
+                  <circle class="nn-halo" cx="560" cy="337" r="24" />
+                  <circle class="nn-node" cx="560" cy="337" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.72s">
+                  <circle class="nn-halo" cx="560" cy="388" r="24" />
+                  <circle class="nn-node" cx="560" cy="388" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 1.95s">
+                  <circle class="nn-halo" cx="790" cy="82" r="24" />
+                  <circle class="nn-node" cx="790" cy="82" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.02s">
+                  <circle class="nn-halo" cx="790" cy="133" r="24" />
+                  <circle class="nn-node" cx="790" cy="133" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.09s">
+                  <circle class="nn-halo" cx="790" cy="184" r="24" />
+                  <circle class="nn-node" cx="790" cy="184" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.16s">
+                  <circle class="nn-halo" cx="790" cy="235" r="24" />
+                  <circle class="nn-node" cx="790" cy="235" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.23s">
+                  <circle class="nn-halo" cx="790" cy="286" r="24" />
+                  <circle class="nn-node" cx="790" cy="286" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.3s">
+                  <circle class="nn-halo" cx="790" cy="337" r="24" />
+                  <circle class="nn-node" cx="790" cy="337" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.37s">
+                  <circle class="nn-halo" cx="790" cy="388" r="24" />
+                  <circle class="nn-node" cx="790" cy="388" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.6s">
+                  <circle class="nn-halo" cx="1020" cy="184" r="24" />
+                  <circle class="nn-node" cx="1020" cy="184" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.67s">
+                  <circle class="nn-halo" cx="1020" cy="235" r="24" />
+                  <circle class="nn-node" cx="1020" cy="235" r="10" />
+                </g>
+                <g class="nn-neuron" style="--delay: 2.74s">
+                  <circle class="nn-halo" cx="1020" cy="286" r="24" />
+                  <circle class="nn-node" cx="1020" cy="286" r="10" />
+                </g>
+              </svg>
+              <div class="network-labels">
+                <span>Уваходныя даныя</span><span>Пласты вылічэнняў</span
+                ><span>Вынік</span>
+              </div>
+            </div>
+            <div class="network-explainer">
+              <p><b>Кропкі</b> выконваюць простыя вылічэнні.</p>
+              <p><b>Сувязі</b> маюць розную сілу — «вагу».</p>
+              <p><b>Навучанне</b> падладжвае гэтыя вагі.</p>
+            </div>
+            <p class="network-note">
+              Умоўная схема невялікай нейрасеткі. Моўныя мадэлі маюць значна
+              складанейшую будову.
+            </p>
+            <footer class="foot">
+              <div>
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://arxiv.org/abs/1706.03762"
+                  >Архітэктура моўных мадэляў ↗</a
+                >
+              </div>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="2"
-            aria-label="3. Мадэль і токены"
+            data-index="3"
+            aria-label="4. Мадэль і токены"
             aria-hidden="true"
           >
             <header class="slide-header">
-              <p>Як працуе моўная мадэль · 1 / 2</p>
-              <span>03 / 16</span>
+              <p>Як працуе моўная мадэль · 2 / 3</p>
+              <span>04 / 19</span>
             </header>
             <h2>Тэкст становіцца токенамі.<br />Мадэль будуе працяг.</h2>
             <div class="model-defs">
@@ -193,18 +1400,18 @@
                   >Attention Is All You Need ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="3"
-            aria-label="4. Кантэкст і ўвага"
+            data-index="4"
+            aria-label="5. Кантэкст і ўвага"
             aria-hidden="true"
           >
             <header class="slide-header">
-              <p>Як працуе моўная мадэль · 2 / 2</p>
-              <span>04 / 16</span>
+              <p>Як працуе моўная мадэль · 3 / 3</p>
+              <span>05 / 19</span>
             </header>
             <h2>
               Адно слова.<br /><span class="red">Кантэкст змяняе сэнс.</span>
@@ -249,18 +1456,18 @@
                   >Attention Is All You Need ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="4"
-            aria-label="5. ReMova і беларуская моўная мадэль"
+            data-index="5"
+            aria-label="6. ReMova і беларуская моўная мадэль"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праект 01 · апісанне</p>
-              <span>05 / 16</span>
+              <span>06 / 19</span>
             </header>
             <h2>ReMova.<br />Якасць пачынаецца з тэкстаў.</h2>
             <p class="curator">
@@ -317,18 +1524,18 @@
                   >ReMova · прэпрынт ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="5"
-            aria-label="6. Дапамога ReMova"
+            data-index="6"
+            aria-label="7. Дапамога ReMova"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праект 01 · як далучыцца</p>
-              <span>06 / 16</span>
+              <span>07 / 19</span>
             </header>
             <h2>Патрэбныя тэксты,<br />якім можна давяраць.</h2>
             <div class="contributions">
@@ -378,18 +1585,18 @@
                   >ReMova · прэпрынт ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="6"
-            aria-label="7. BelarusianGLUE і SQARB"
+            data-index="7"
+            aria-label="8. BelarusianGLUE і SQARB"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праект 02 · апісанне</p>
-              <span>07 / 16</span>
+              <span>08 / 19</span>
             </header>
             <h2>Як праверыць,<br />што мадэль разумее беларускую?</h2>
             <p class="curator">
@@ -444,18 +1651,18 @@
                   >SQARB · набор даных ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="7"
-            aria-label="8. Дапамога BelarusianGLUE"
+            data-index="8"
+            aria-label="9. Дапамога BelarusianGLUE"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праект 02 · як далучыцца</p>
-              <span>08 / 16</span>
+              <span>09 / 19</span>
             </header>
             <h2>Добры тэст пачынаецца<br />з добрага пытання.</h2>
             <div class="contributions">
@@ -507,18 +1714,18 @@
                   >LoResLM 2026 ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="8"
-            aria-label="9. SONORA"
+            data-index="9"
+            aria-label="10. SONORA"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праект 03 · апісанне</p>
-              <span>09 / 16</span>
+              <span>10 / 19</span>
             </header>
             <h2>SONORA.<br />Добры голас пачынаецца ў студыі.</h2>
             <p class="curator">
@@ -567,18 +1774,18 @@
                   >sonora.you ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="9"
-            aria-label="10. Дапамога SONORA"
+            data-index="10"
+            aria-label="11. Дапамога SONORA"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праект 03 · як далучыцца</p>
-              <span>10 / 16</span>
+              <span>11 / 19</span>
             </header>
             <h2>Тэкст для начыткі —<br />лінгвістычная задача.</h2>
             <div class="contributions">
@@ -628,18 +1835,18 @@
                   >sonora.you ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="10"
-            aria-label="11. TuteishyGPT"
+            data-index="11"
+            aria-label="12. TuteishyGPT"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праект 04 · апісанне</p>
-              <span>11 / 16</span>
+              <span>12 / 19</span>
             </header>
             <h2>TuteishyGPT.<br />Беларуская, якую можна пачуць.</h2>
             <p class="curator">
@@ -687,18 +1894,18 @@
                   >tuteishygpt.pro ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="11"
-            aria-label="12. Дапамога TuteishyGPT"
+            data-index="12"
+            aria-label="13. Дапамога TuteishyGPT"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праект 04 · як далучыцца</p>
-              <span>12 / 16</span>
+              <span>13 / 19</span>
             </header>
             <h2>Лінгвіст чуе тое,<br />чаго не бачыць метрыка.</h2>
             <div class="contributions">
@@ -748,18 +1955,18 @@
                   >tuteishygpt.pro ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="12"
-            aria-label="13. Моўныя рэсурсы НАН"
+            data-index="13"
+            aria-label="14. Моўныя рэсурсы НАН"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праца ў Беларусі · 1 / 2</p>
-              <span>13 / 16</span>
+              <span>14 / 19</span>
             </header>
             <h2>Акадэмічныя рэсурсы<br />працуюць і для ШІ.</h2>
             <p class="curator">
@@ -834,18 +2041,18 @@
                   >BelVoice ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="13"
-            aria-label="14. Дзяржаўная падтрымка"
+            data-index="14"
+            aria-label="15. Дзяржаўная падтрымка"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Праца ў Беларусі · 2 / 2</p>
-              <span>14 / 16</span>
+              <span>15 / 19</span>
             </header>
             <h2>Ёсць установы.<br />Ёсць канкрэтныя распрацоўкі.</h2>
             <div class="institution-rows">
@@ -903,18 +2110,18 @@
                   >Галасавыя памочнікі ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide"
-            data-index="14"
-            aria-label="15. Беларуская ІТ-тэрміналогія"
+            data-index="15"
+            aria-label="16. Беларуская ІТ-тэрміналогія"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Яшчэ адна супольная задача</p>
-              <span>15 / 16</span>
+              <span>16 / 19</span>
             </header>
             <h2>
               Слоўнік.<br /><span class="red"
@@ -931,6 +2138,8 @@
                   значэнні і дадаваць<br />прыклады рэальнага ўжывання.
                 </p>
                 <a
+                  rel="noopener noreferrer"
+                  target="_blank"
                   class="dictionary-link"
                   href="https://docs.google.com/spreadsheets/d/1k3XLX0G50jbHGxWxQge_pVI1U4mzf36IDkUcAUpkIvc/edit#gid=759166113"
                   >Адкрыць гласарый ↗</a
@@ -962,18 +2171,155 @@
                   >ІТ-гласарый ↗</a
                 >
               </div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
+            </footer>
+          </section>
+          <section
+            aria-hidden="true"
+            aria-label="17. Мой выбар: ChatGPT і GPT-6 Astra"
+            data-index="16"
+            class="slide advice-slide"
+          >
+            <header class="slide-header">
+              <p>Практычныя парады · 25.09.2026</p>
+              <span>17 / 19</span>
+            </header>
+            <h2>Мой выбар для складанай працы.</h2>
+            <div class="advice-layout">
+              <div class="model-recommendation">
+                <p class="label">Сэрвіс</p>
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://chatgpt.com/"
+                  >ChatGPT ↗</a
+                >
+                <p class="label">Мадэль</p>
+                <h3>GPT-6<br /><span class="red">Astra</span></h3>
+                <p>
+                  Наймацнейшая мадэль OpenAI<br />для складаных задач, паводле
+                  кампаніі.
+                </p>
+              </div>
+              <div class="effort-explainer">
+                <p class="label">Reasoning effort · узровень разважанняў</p>
+                <h3>Колькі працы мадэль робіць<br />перад тым, як адказаць.</h3>
+                <p>
+                  Больш разважанняў можа дапамагчы<br />ў складаным аналізе.
+                  Адказ зойме больш часу.
+                </p>
+                <div class="effort-scale">
+                  <span>low</span><span>medium</span
+                  ><strong>high <small>мой выбар</small></strong
+                  ><span>xhigh</span><span>max</span>
+                </div>
+                <div class="effort-tip">
+                  <b>Мая парада: high effort.</b>
+                  <p>
+                    Аптымальны старт для складаных задач.<br />Для простай
+                    праўкі тэксту можна выбраць ніжэйшы ўзровень.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <p class="advice-note">
+              Дадавайце крыніцы і прыклады. Правярайце факты. Даступнасць мадэлі
+              і назвы налад залежаць ад сэрвісу і тарыфу.
+            </p>
+            <footer class="foot">
+              <div>
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://developers.openai.com/api/docs/models/gpt-6-astra"
+                  >GPT-6 Astra ↗</a
+                ><a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://developers.openai.com/api/docs/guides/reasoning"
+                  >Узровень разважанняў ↗</a
+                ><a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://learn.chatgpt.com/docs/models"
+                  >Мадэлі ў ChatGPT ↗</a
+                >
+              </div>
+              <button data-sources="">Крыніцы і заўвагі</button>
+            </footer>
+          </section>
+          <section
+            aria-hidden="true"
+            aria-label="18. Падпісвайцеся на «Каласы пад сярпом ШІ»"
+            data-index="17"
+            class="slide podcast-slide"
+          >
+            <header class="slide-header">
+              <p>Беларускасці шмат не бывае</p>
+              <span>18 / 19</span>
+            </header>
+            <div class="podcast-promo">
+              <div class="podcast-art">
+                <img
+                  src="assets/kalasy-logo.jpg"
+                  width="3000"
+                  height="3000"
+                  alt="Лагатып падкаста «Каласы пад сярпом ШІ»: светлы серп над залатым полем"
+                />
+              </div>
+              <div class="podcast-copy">
+                <h2>Каласы<br />пад сярпом <span class="red">ШІ</span></h2>
+                <p class="lead">
+                  Навіны ШІ. Мадэлі, якія варта<br />паспрабаваць. І шмат
+                  беларускасці.
+                </p>
+                <p class="podcast-poetry">А яшчэ — вершы ў выкананні Эміліі.</p>
+                <div class="podcast-subscribe">
+                  <a
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href="https://kalasy.ai/"
+                    class="podcast-qr"
+                    ><img
+                      src="assets/kalasy-qr.svg"
+                      width="150"
+                      height="150"
+                      alt="QR-код на kalasy.ai"
+                  /></a>
+                  <div>
+                    <p class="label">Падпісвайцеся і слухайце</p>
+                    <a
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      href="https://kalasy.ai/"
+                      >kalasy.ai ↗</a
+                    >
+                    <p>Спасылкі на ўсе платформы</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <footer class="foot">
+              <div>
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href="https://kalasy.ai/"
+                  >kalasy.ai ↗</a
+                >
+              </div>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
           <section
             class="slide final-slide"
-            data-index="15"
-            aria-label="16. Дзякуй за ўвагу"
+            data-index="18"
+            aria-label="19. Дзякуй за ўвагу"
             aria-hidden="true"
           >
             <header class="slide-header">
               <p>Далучайцеся да праектаў</p>
-              <span>16 / 16</span>
+              <span>19 / 19</span>
             </header>
             <div class="thanks">
               <div>
@@ -1009,7 +2355,7 @@
             </div>
             <footer class="foot">
               <div></div>
-              <button data-sources>Крыніцы і заўвагі</button>
+              <button data-sources="">Крыніцы і заўвагі</button>
             </footer>
           </section>
         </div>
@@ -1020,14 +2366,22 @@
       <div class="nav-group">
         <button id="prev" aria-label="Папярэдні слайд">←</button
         ><button id="overview" title="Агляд слайдаў (O)">
-          <span id="counter">01 / 16</span></button
+          <span id="counter">01 / 19</span></button
         ><button id="next" aria-label="Наступны слайд">→</button>
       </div>
       <div class="tools-group">
         <button id="motion" aria-pressed="true" title="Аўтаматычныя прыклады">
           Анімацыя: укл.</button
-        ><button id="mic" title="Пераключэнне плясканнем (M)">Мікрафон</button
-        ><button id="timer" title="Таймер (T)">00:00</button
+        ><button id="mic" title="Плясканні і галасавыя каманды (M)">
+          Мікрафон</button
+        ><button id="timer" title="Пачаць выступ на 15 хвілін (T)">
+          Пачаць · 15:00</button
+        ><button
+          id="timer-settings"
+          title="Налады таймера і праверка голасу"
+          aria-label="Налады таймера і праверка голасу"
+        >
+          ◷</button
         ><button id="notes" title="Нататкі (N)">Нататкі</button
         ><button id="sources" title="Крыніцы (S)">Крыніцы</button
         ><button id="fullscreen" title="Поўны экран (F)">⛶</button
@@ -1038,15 +2392,15 @@
     <div id="toast" role="status"></div>
     <dialog id="overview-dialog">
       <div class="dialog-head">
-        <h2>16 слайдаў</h2>
-        <button data-close aria-label="Закрыць">×</button>
+        <h2>19 слайдаў</h2>
+        <button data-close="" aria-label="Закрыць">×</button>
       </div>
       <div id="overview-grid" class="overview-grid"></div>
     </dialog>
     <dialog id="notes-dialog">
       <div class="dialog-head">
         <h2 id="notes-title">Нататкі</h2>
-        <button data-close aria-label="Закрыць">×</button>
+        <button data-close="" aria-label="Закрыць">×</button>
       </div>
       <p class="dialog-hint">
         Для падрыхтоўкі. Гэта акно бачна на экране прэзентацыі.
@@ -1060,7 +2414,7 @@
     <dialog id="sources-dialog">
       <div class="dialog-head">
         <h2>Крыніцы і заўвагі</h2>
-        <button data-close aria-label="Закрыць">×</button>
+        <button data-close="" aria-label="Закрыць">×</button>
       </div>
       <div class="dialog-actions">
         <button id="sources-current" aria-pressed="true">Гэты слайд</button
@@ -1070,47 +2424,91 @@
     </dialog>
     <dialog id="mic-dialog">
       <div class="dialog-head">
-        <h2>Два плясканні — наступны слайд</h2>
-        <button data-close aria-label="Закрыць">×</button>
+        <h2>Плясканні і галасавыя каманды</h2>
+        <button data-close="" aria-label="Закрыць">×</button>
       </div>
       <p>
         Уключыце мікрафон і дазвольце доступ у браўзеры. Пачакайце 2 секунды ў
         цішыні, потым плясніце двойчы з паўзай прыкладна паўсекунды.
       </p>
       <p class="dialog-hint">
-        Гук апрацоўваецца толькі на гэтым камп’ютары. Запіс і адпраўка аўдыя не
-        адбываюцца.
+        У рэжыме плясканняў гук апрацоўваецца толькі на гэтым камп’ютары, не
+        запісваецца і нікуды не адпраўляецца.
       </p>
       <label for="sensitivity"
         >Адчувальнасць <output id="sensitivity-value">3 / 5</output></label
       ><input id="sensitivity" type="range" min="1" max="5" value="3" />
       <div class="meter" aria-hidden="true"><i id="mic-meter"></i></div>
-      <p id="mic-status" role="status">Мікрафон выключаны.</p>
+      <p id="mic-status" role="status">Кіраванне плясканнямі выключанае.</p>
       <p id="clap-preview">Праверка: пакуль няма плясканняў.</p>
       <div class="dialog-actions">
-        <button id="mic-start" class="primary">Уключыць мікрафон</button
-        ><button id="mic-stop" disabled>Выключыць</button
+        <button id="mic-start" class="primary">Уключыць плясканні</button
+        ><button id="mic-stop" disabled>Выключыць плясканні</button
         ><button id="mic-recalibrate" disabled>Наладзіць шум</button>
       </div>
       <p class="dialog-hint">
         Пакуль гэта акно адкрыта, плясканні толькі правяраюцца. Зачыніце яго
         перад выступам. Рэха, воплескі і рэзкія гукі могуць выклікаць памылковы
         пераход. Праверце адчувальнасць у зале. Клавіша M адкрывае наладку,
-        Shift+M выключае мікрафон.
+        Shift+M выключае абодва рэжымы.
+      </p>
+      <section class="voice-settings">
+        <h3>Словы «далей» і «назад»</h3>
+        <p>
+          Прамаўляйце каманду асобна, з кароткай паўзай. Пакуль гэта акно
+          адкрыта, каманды толькі правяраюцца.
+        </p>
+        <p class="dialog-hint">
+          Гэта асобны рэжым: браўзер можа адпраўляць гук сэрвісу распазнавання.
+          Патрэбны інтэрнэт і падтрымка Web Speech. Плясканні працуюць лакальна.
+        </p>
+        <label for="voice-language">Мова распазнавання</label
+        ><select id="voice-language">
+          <option value="be-BY">Беларуская</option>
+          <option value="ru-RU">Руская — запасны варыянт</option>
+        </select>
+        <p id="voice-status" role="status">Галасавыя каманды выключаныя.</p>
+        <p id="voice-preview">Праверка: скажыце «далей» або «назад».</p>
+        <div class="dialog-actions">
+          <button id="voice-start" class="primary">
+            Уключыць галасавыя каманды</button
+          ><button id="voice-stop" disabled>Выключыць каманды</button>
+        </div>
+        <p class="dialog-hint">
+          Калі беларуская мова недаступная, выберыце запасны варыянт. «Далее»
+          таксама распазнаецца як «далей». Shift+M выключае абодва рэжымы.
+        </p>
+      </section>
+    </dialog>
+    <dialog id="timer-dialog">
+      <div class="dialog-head">
+        <h2>15 хвілін на выступ</h2>
+        <button data-close="" aria-label="Закрыць">×</button>
+      </div>
+      <p id="timer-readout">15:00</p>
+      <p>За хвіліну да канца прагучыць: <b>«Лёша, трэба сканчваць»</b>.</p>
+      <div class="dialog-actions">
+        <button id="timer-toggle" class="primary">Пачаць выступ</button
+        ><button id="timer-reset">Скінуць на 15:00</button
+        ><button id="timer-test">Праверыць голас</button>
+      </div>
+      <p id="timer-audio-status" class="dialog-hint" role="status">
+        Адлік пачынаецца кнопкай «Пачаць» або пры першым уключэнні поўнага
+        экрана. Праверце гучнасць перад выступам.
       </p>
     </dialog>
     <dialog id="help-dialog">
       <div class="dialog-head">
         <h2>Кіраванне</h2>
-        <button data-close aria-label="Закрыць">×</button>
+        <button data-close="" aria-label="Закрыць">×</button>
       </div>
       <ul class="help-list">
         <li>← / → / Прабел — пераход паміж слайдамі</li>
         <li>Home / End — першы / апошні слайд</li>
-        <li>F — поўны экран</li>
+        <li>F — поўны экран і пачатак выступу</li>
         <li>O — агляд · N — нататкі · S — крыніцы</li>
-        <li>M — мікрафон · Shift+M — выключыць мікрафон</li>
-        <li>T — запусціць або спыніць таймер</li>
+        <li>M — мікрафон · Shift+M — выключыць плясканні і каманды</li>
+        <li>T — пачаць або прыпыніць адлік 15 хвілін</li>
         <li>Esc — закрыць акно / выйсці з поўнага экрана</li>
       </ul>
       <p>
@@ -1119,7 +2517,7 @@
       </p>
       <p>
         На тэлефоне працуюць кнопкі і гарызантальныя рухі пальцам. Друк у
-        браўзеры захоўвае ўсе 16 слайдаў.
+        браўзеры захоўвае ўсе 19 слайдаў.
       </p>
       <p class="dialog-hint">
         Для мікрафона адкрывайце HTTPS-спасылку або localhost. Калі на
@@ -1133,6 +2531,13 @@
       </p></noscript
     >
     <script src="js/data.js"></script>
+    <script src="js/presenter-core.js"></script>
     <script src="js/app.js"></script>
+    <div hidden role="alert" id="time-warning">
+      <div>
+        <span>Засталася хвіліна</span><strong>Лёша, трэба сканчваць</strong>
+      </div>
+      <button id="dismiss-time-warning" aria-label="Схаваць напамін">×</button>
+    </div>
   </body>
 </html>

@@ -2,10 +2,15 @@
 const $ = (id) => document.getElementById(id);
 const slides = [...document.querySelectorAll(".slide")];
 let current = 0,
-  allSources = false,
-  timerStart = 0,
-  timerElapsed = 0,
-  timerRunning = false;
+  allSources = false;
+const countdown = new PresenterCore.Countdown();
+const reminder = new Audio("assets/one-minute-left.m4a");
+reminder.preload = "auto";
+let reminderGeneration = 0,
+  reminderTimeout,
+  speakingReminder = false,
+  inputsBlockedUntil = 0,
+  lastHandsfree = -Infinity;
 let toastTimeout,
   autoTimer,
   autoStep = 0;
@@ -116,6 +121,7 @@ function openOverview() {
   showDialog("overview-dialog");
 }
 async function fullScreen() {
+  if (!countdown.started) startPresentation();
   try {
     if (document.fullscreenElement) await document.exitFullscreen();
     else if (document.documentElement.requestFullscreen)
@@ -126,24 +132,148 @@ async function fullScreen() {
   }
 }
 function toggleTimer() {
-  if (timerRunning) timerElapsed += Date.now() - timerStart;
-  else timerStart = Date.now();
-  timerRunning = !timerRunning;
+  if (countdown.running) {
+    updateTimer();
+    countdown.pause();
+  } else if (countdown.remaining() > 0) {
+    primeReminder();
+    countdown.start();
+  }
   updateTimer();
 }
+function startPresentation() {
+  if (countdown.started) return;
+  primeReminder();
+  countdown.start();
+  updateTimer();
+  toast("Выступ пачаўся · 15 хвілін");
+}
 function updateTimer() {
-  const n = Math.floor(
-    (timerElapsed + (timerRunning ? Date.now() - timerStart : 0)) / 1000,
+  const state = countdown.tick();
+  const label = PresenterCore.formatTime(state.remaining);
+  $("timer").textContent = state.started ? label : "Пачаць · 15:00";
+  $("timer").setAttribute("aria-pressed", String(state.running));
+  $("timer").classList.toggle(
+    "ending",
+    state.started && state.remaining <= 60000,
   );
-  $("timer").textContent =
-    String(Math.floor(n / 60)).padStart(2, "0") +
-    ":" +
-    String(n % 60).padStart(2, "0");
-  $("timer").setAttribute("aria-pressed", String(timerRunning));
+  $("timer").title = state.started
+    ? `Засталося ${label}${state.running ? "" : " · паўза"}. Налады таймера (T — паўза).`
+    : "Пачаць выступ · 15 хвілін (T)";
+  $("timer-readout").textContent = label;
+  $("timer-toggle").textContent = state.running
+    ? "Прыпыніць"
+    : state.started
+      ? "Працягнуць"
+      : "Пачаць выступ";
+  $("timer-toggle").disabled = state.remaining === 0;
+  if (state.remaining === 0) $("timer-toggle").textContent = "Час скончыўся";
+  if (state.warn) {
+    $("time-warning").hidden = false;
+    playReminder();
+  }
+}
+// A user gesture unlocks the same audio element later used by the countdown.
+function primeReminder() {
+  if (speakingReminder) return;
+  const generation = ++reminderGeneration;
+  reminder.volume = 0;
+  reminder
+    .play()
+    .then(() => {
+      if (generation !== reminderGeneration) return;
+      reminder.pause();
+      reminder.currentTime = 0;
+      reminder.volume = 1;
+    })
+    .catch(() => {
+      if (generation === reminderGeneration) reminder.volume = 1;
+    });
+}
+function finishReminder() {
+  clearTimeout(reminderTimeout);
+  speakingReminder = false;
+  inputsBlockedUntil = Date.now() + 1400;
+  clapNode?.port.postMessage({ type: "reset-pair" });
+  scheduleVoiceRestart(1500);
+}
+function stopReminder() {
+  ++reminderGeneration;
+  reminder.pause();
+  reminder.onended = reminder.onerror = null;
+  if (speakingReminder && window.speechSynthesis)
+    window.speechSynthesis.cancel();
+  finishReminder();
+}
+function playReminder() {
+  const generation = ++reminderGeneration;
+  clearTimeout(reminderTimeout);
+  speakingReminder = true;
+  suspendVoice();
+  clapNode?.port.postMessage({ type: "reset-pair" });
+  reminder.pause();
+  reminder.currentTime = 0;
+  reminder.volume = 1;
+  let fallbackStarted = false;
+  const finished = () => {
+    if (generation === reminderGeneration) finishReminder();
+  };
+  const fallback = () => {
+    if (generation !== reminderGeneration || fallbackStarted) return;
+    fallbackStarted = true;
+    if (window.speechSynthesis && window.SpeechSynthesisUtterance) {
+      const utterance = new SpeechSynthesisUtterance("Лёша, трэба сканчваць");
+      const voices = window.speechSynthesis.getVoices();
+      utterance.voice =
+        voices.find((v) => v.lang.startsWith("be")) ||
+        voices.find((v) => v.lang.startsWith("ru")) ||
+        null;
+      utterance.lang = utterance.voice?.lang || "be-BY";
+      utterance.rate = 0.95;
+      utterance.onend = finished;
+      utterance.onerror = () => {
+        $("timer-audio-status").textContent =
+          "Гук недаступны. Праверце гучнасць і дазволы браўзера; візуальны напамін працуе.";
+        finished();
+      };
+      window.speechSynthesis.speak(utterance);
+    } else {
+      $("timer-audio-status").textContent =
+        "Гук недаступны. Праверце гучнасць і дазволы браўзера; візуальны напамін працуе.";
+      finished();
+    }
+  };
+  reminder.onended = finished;
+  reminder.onerror = fallback;
+  reminderTimeout = setTimeout(finished, 12000);
+  reminder
+    .play()
+    .then(() => {
+      if (generation === reminderGeneration)
+        $("timer-audio-status").textContent =
+          "Галасавы напамін прайграваецца. Калі яго не чуваць, праверце гучнасць ноўтбука.";
+    })
+    .catch(fallback);
+}
+function handsfreeMove(direction, message) {
+  const now = Date.now();
+  if (
+    document.hidden ||
+    speakingReminder ||
+    now < inputsBlockedUntil ||
+    now - lastHandsfree < 1400
+  )
+    return;
+  if (document.querySelector("dialog[open]")) return;
+  const next = Math.max(0, Math.min(slides.length - 1, current + direction));
+  if (next === current) return;
+  lastHandsfree = now;
+  go(next);
+  toast(message);
 }
 function animationFrame() {
   if (document.hidden) return;
-  if (current === 2) {
+  if (slides[current].querySelector('[data-auto="tokens"]')) {
     const tokens = [...document.querySelectorAll(".token-strip span")];
     const p = autoStep % 14;
     tokens.forEach((t, i) =>
@@ -160,7 +290,7 @@ function animationFrame() {
     const caret = document.createElement("span");
     caret.className = "caret";
     $("generated-text").append(caret);
-  } else if (current === 3) {
+  } else if (slides[current].querySelector('[data-auto="attention"]')) {
     const flour = Math.floor(autoStep / 5) % 2 === 0;
     $("context-clue").textContent = $("attention-source").textContent = flour
       ? "пшанічная"
@@ -174,13 +304,20 @@ function animationFrame() {
 function startAnimation() {
   clearInterval(autoTimer);
   autoStep = 0;
-  document.body.classList.toggle("motion-paused", !motionEnabled);
+  document.body.classList.toggle(
+    "motion-paused",
+    !motionEnabled || document.hidden,
+  );
   $("motion").textContent = motionEnabled
     ? "Анімацыя: укл."
     : "Анімацыя: паўза";
   $("motion").setAttribute("aria-pressed", String(motionEnabled));
   animationFrame();
-  if (motionEnabled && !document.hidden && (current === 2 || current === 3))
+  if (
+    motionEnabled &&
+    !document.hidden &&
+    slides[current].querySelector("[data-auto]")
+  )
     autoTimer = setInterval(animationFrame, 1000);
 }
 $("motion").addEventListener("click", () => {
@@ -202,7 +339,28 @@ $("notes").onclick = () => {
 $("sources").onclick = openSources;
 $("overview").onclick = openOverview;
 $("fullscreen").onclick = fullScreen;
-$("timer").onclick = toggleTimer;
+$("timer").onclick = () => {
+  if (!countdown.started) startPresentation();
+  else {
+    updateTimer();
+    showDialog("timer-dialog");
+  }
+};
+$("timer-toggle").onclick = toggleTimer;
+$("timer-reset").onclick = () => {
+  countdown.reset();
+  stopReminder();
+  $("time-warning").hidden = true;
+  updateTimer();
+};
+$("timer-test").onclick = playReminder;
+$("timer-settings").onclick = () => {
+  updateTimer();
+  showDialog("timer-dialog");
+};
+$("dismiss-time-warning").onclick = () => {
+  $("time-warning").hidden = true;
+};
 $("help").onclick = () => showDialog("help-dialog");
 $("sources-current").onclick = () => renderSources(false);
 $("sources-all").onclick = () => renderSources(true);
@@ -240,6 +398,7 @@ document.addEventListener("keydown", (e) => {
   if (shortcut === "m" && e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey) {
     e.preventDefault();
     stopMicrophone();
+    stopVoice();
     return;
   }
   if (
@@ -312,8 +471,7 @@ let micStream = null,
   micGeneration = 0;
 let clapCount = 0;
 function microphoneUI(on) {
-  $("mic").classList.toggle("listening", on);
-  $("mic").textContent = on ? "Мікрафон: укл." : "Мікрафон";
+  microphoneIndicator();
   $("mic-start").disabled = on || micPending;
   $("mic-stop").disabled = !on && !micPending;
   $("mic-recalibrate").disabled = !on;
@@ -392,15 +550,17 @@ async function startMicrophone() {
         $("clap-preview").textContent =
           "Другое плясканне не прагучала своечасова. Паспрабуйце яшчэ.";
       if (data.type === "double") {
-        if (document.hidden) return;
+        if (
+          document.hidden ||
+          speakingReminder ||
+          Date.now() < inputsBlockedUntil
+        )
+          return;
         if (document.querySelector("dialog[open]")) {
           clapCount++;
           $("clap-preview").textContent =
             `Распазнана падвойнае плясканне (${clapCount}). Зачыніце акно, каб кіраваць слайдамі.`;
-        } else if (current < slides.length - 1) {
-          go(current + 1);
-          toast("Падвойнае плясканне · наступны слайд");
-        }
+        } else handsfreeMove(1, "Падвойнае плясканне · наступны слайд");
       }
     };
     node.onprocessorerror = () => {
@@ -460,7 +620,7 @@ function stopMicrophone() {
   stream?.getTracks().forEach((t) => t.stop());
   if (context && context.state !== "closed") context.close().catch(() => {});
   microphoneUI(false);
-  $("mic-status").textContent = "Мікрафон выключаны.";
+  $("mic-status").textContent = "Кіраванне плясканнямі выключанае.";
   $("mic-meter").style.width = "0%";
   $("clap-preview").textContent = "Праверка: пакуль няма плясканняў.";
 }
@@ -475,12 +635,179 @@ $("sensitivity").oninput = (e) => {
     value: Number(e.target.value),
   });
 };
+// Speech recognition is opt-in and can use the browser vendor's online service.
+const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let voiceWanted = false,
+  recognizer = null,
+  voiceRestartTimer,
+  voiceErrors = 0;
+function microphoneIndicator() {
+  const on = Boolean(micStream || voiceWanted);
+  $("mic").classList.toggle("listening", on);
+  $("mic").textContent = on ? "Мікрафон: укл." : "Мікрафон";
+}
+function voiceUI() {
+  $("voice-start").disabled = voiceWanted || !Recognition;
+  $("voice-stop").disabled = !voiceWanted;
+  $("voice-language").disabled = voiceWanted;
+  microphoneIndicator();
+}
+function suspendVoice() {
+  clearTimeout(voiceRestartTimer);
+  if (!recognizer) return;
+  const previous = recognizer;
+  recognizer = null;
+  previous.onstart =
+    previous.onresult =
+    previous.onerror =
+    previous.onend =
+      null;
+  try {
+    previous.abort();
+  } catch {
+    /* Already ended. */
+  }
+}
+function stopVoice(message = "Галасавыя каманды выключаныя.") {
+  voiceWanted = false;
+  suspendVoice();
+  voiceUI();
+  $("voice-status").textContent = message;
+}
+function scheduleVoiceRestart(delay = 500) {
+  clearTimeout(voiceRestartTimer);
+  if (!voiceWanted || document.hidden || speakingReminder || recognizer) return;
+  voiceRestartTimer = setTimeout(beginVoice, delay);
+}
+function beginVoice() {
+  if (!voiceWanted || document.hidden || speakingReminder || recognizer) return;
+  if (voiceErrors >= 3) {
+    stopVoice(
+      "Распазнаванне некалькі разоў перарвалася. Праверце інтэрнэт, паспрабуйце іншую мову або іншы браўзер. Плясканні застаюцца даступнымі.",
+    );
+    return;
+  }
+  let engine;
+  try {
+    engine = new Recognition();
+    engine.lang = $("voice-language").value;
+    engine.continuous = true;
+    engine.interimResults = false;
+    engine.maxAlternatives = 1;
+    recognizer = engine;
+    const openedAt = Date.now();
+    let hadError = false;
+    engine.onstart = () => {
+      if (engine !== recognizer) return;
+      $("voice-status").textContent =
+        "Слухаю. Скажыце асобна «далей» або «назад».";
+      voiceUI();
+    };
+    engine.onresult = (event) => {
+      if (
+        engine !== recognizer ||
+        !voiceWanted ||
+        document.hidden ||
+        speakingReminder ||
+        Date.now() < inputsBlockedUntil
+      )
+        return;
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        const result = event.results[i];
+        if (!result.isFinal) continue;
+        voiceErrors = 0;
+        const transcript = result[0]?.transcript || "";
+        const direction = PresenterCore.parseVoiceCommand(transcript);
+        $("voice-preview").textContent = direction
+          ? `Распазнана: «${direction === 1 ? "далей" : "назад"}». ${document.querySelector("dialog[open]") ? "Зачыніце акно, каб кіраваць слайдамі." : ""}`
+          : `Пачута: «${transcript.slice(0, 100)}». Чакаем асобную каманду.`;
+        if (direction) {
+          handsfreeMove(
+            direction,
+            direction === 1
+              ? "«Далей» · наступны слайд"
+              : "«Назад» · папярэдні слайд",
+          );
+          break;
+        }
+      }
+    };
+    engine.onerror = (event) => {
+      if (engine !== recognizer) return;
+      const terminal = {
+        "not-allowed":
+          "Дазвольце мікрафон у наладах сайта і ўключыце каманды зноў.",
+        "service-not-allowed":
+          "Браўзер не дазваляе сэрвіс распазнавання. Паспрабуйце іншы браўзер.",
+        "language-not-supported":
+          "Гэтая мова не падтрымліваецца сэрвісам. Выберыце запасную мову і ўключыце каманды зноў.",
+        "audio-capture":
+          "Распазнаванне не атрымала гук. Праверце мікрафон; пры патрэбе выключыце рэжым плясканняў.",
+      };
+      if (terminal[event.error]) {
+        stopVoice(terminal[event.error]);
+        return;
+      }
+      hadError = true;
+      if (event.error !== "no-speech" && event.error !== "aborted")
+        voiceErrors++;
+      $("voice-status").textContent =
+        event.error === "network"
+          ? "Сэрвіс распазнавання недаступны. Спрабую аднавіць сувязь…"
+          : "Аднаўляю распазнаванне…";
+    };
+    engine.onend = () => {
+      if (engine !== recognizer) return;
+      recognizer = null;
+      if (!hadError && Date.now() - openedAt < 1000) voiceErrors++;
+      scheduleVoiceRestart(500 + voiceErrors * 750);
+    };
+    $("voice-status").textContent = "Запускаю распазнаванне…";
+    engine.start();
+  } catch {
+    stopVoice(
+      "Не ўдалося запусціць галасавыя каманды. Праверце дазвол на мікрафон і падтрымку распазнавання ў браўзеры.",
+    );
+  }
+}
+function startVoice() {
+  if (voiceWanted) return;
+  if (!Recognition || !window.isSecureContext) {
+    $("voice-status").textContent =
+      "У гэтым браўзеры галасавыя каманды недаступныя. Паспрабуйце Chrome праз HTTPS. Можна кіраваць плясканнямі або клавішамі.";
+    return;
+  }
+  voiceWanted = true;
+  voiceErrors = 0;
+  voiceUI();
+  beginVoice();
+}
+$("voice-start").onclick = startVoice;
+$("voice-stop").onclick = () => stopVoice();
+voiceUI();
+if (!Recognition)
+  $("voice-status").textContent =
+    "Гэты браўзер не падтрымлівае галасавыя каманды. Паспрабуйце Chrome або карыстайцеся плясканнямі і клавішамі.";
 document.addEventListener("visibilitychange", () => {
   if (clapNode) clapNode.port.postMessage({ type: "reset-pair" });
+  if (document.hidden) {
+    suspendVoice();
+    if (voiceWanted)
+      $("voice-status").textContent =
+        "Паўза: вярніцеся ва ўкладку прэзентацыі.";
+  } else {
+    updateTimer();
+    scheduleVoiceRestart();
+  }
   startAnimation();
 });
-window.addEventListener("pagehide", stopMicrophone);
+window.addEventListener("pagehide", () => {
+  stopMicrophone();
+  stopVoice();
+  stopReminder();
+});
 fit();
 const initial = Number(location.hash.match(/^#slide-(\d+)$/)?.[1]);
 go(initial >= 1 && initial <= slides.length ? initial - 1 : 0, false);
+updateTimer();
 setInterval(updateTimer, 500);
