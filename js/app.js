@@ -3,19 +3,14 @@ const $ = (id) => document.getElementById(id);
 const slides = [...document.querySelectorAll(".slide")];
 let current = 0,
   allSources = false,
-  timerRunning = false,
+  timerStart = 0,
   timerElapsed = 0,
-  timerStarted = 0,
-  toastTimeout;
-const fmt = (s) => {
-  const a = Math.abs(s);
-  return (
-    (s < 0 ? "−" : "") +
-    String(Math.floor(a / 60)).padStart(2, "0") +
-    ":" +
-    String(a % 60).padStart(2, "0")
-  );
-};
+  timerRunning = false;
+let toastTimeout,
+  autoTimer,
+  autoStep = 0;
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+let motionEnabled = !reduceMotion.matches;
 const escapeHTML = (s) =>
   String(s).replace(
     /[&<>"']/g,
@@ -24,198 +19,208 @@ const escapeHTML = (s) =>
         c
       ],
   );
-const timings = DECK.slides.map((s, i) => ({
-  start: DECK.slides.slice(0, i).reduce((a, b) => a + b.duration, 0),
-  end: DECK.slides.slice(0, i + 1).reduce((a, b) => a + b.duration, 0),
-}));
 function fit() {
   if (matchMedia("(max-width:700px) and (orientation:portrait)").matches)
     return;
-  const r = $("viewport").getBoundingClientRect(),
-    scale = Math.max(
-      0.1,
-      Math.min((r.width - 40) / 1600, (r.height - 14) / 900),
-    );
-  document.documentElement.style.setProperty("--scale", scale);
-  document.documentElement.style.setProperty("--sw", 1600 * scale + "px");
-  document.documentElement.style.setProperty("--sh", 900 * scale + "px");
+  const r = $("viewport").getBoundingClientRect();
+  const scale = Math.min((r.width - 36) / 1600, (r.height - 12) / 900);
+  document.documentElement.style.setProperty("--scale", Math.max(0.1, scale));
+  document.documentElement.style.setProperty(
+    "--sw",
+    1600 * Math.max(0.1, scale) + "px",
+  );
+  document.documentElement.style.setProperty(
+    "--sh",
+    900 * Math.max(0.1, scale) + "px",
+  );
+}
+function toast(message) {
+  clearTimeout(toastTimeout);
+  $("toast").textContent = message;
+  $("toast").classList.add("show");
+  toastTimeout = setTimeout(() => $("toast").classList.remove("show"), 2600);
 }
 function go(index, updateHash = true) {
-  current = Math.max(0, Math.min(slides.length - 1, index));
+  if (!Number.isFinite(index)) return;
+  current = Math.max(0, Math.min(slides.length - 1, Math.trunc(index)));
   slides.forEach((s, i) => {
     const active = i === current;
     s.classList.toggle("active", active);
     s.setAttribute("aria-hidden", String(!active));
     s.inert = !active;
   });
-  $("counter").textContent = String(current + 1).padStart(2, "0") + " / 11";
-  $("progress").style.width = ((current + 1) / 11) * 100 + "%";
-  $("prev").disabled = current === 0;
-  $("next").disabled = current === 10;
+  $("counter").textContent =
+    String(current + 1).padStart(2, "0") + " / " + slides.length;
+  $("progress").style.width = ((current + 1) / slides.length) * 100 + "%";
+  $("prev").disabled = $("notes-prev").disabled = current === 0;
+  $("next").disabled = $("notes-next").disabled = current === slides.length - 1;
   $("announcement").textContent =
-    "Слайд " + (current + 1) + " з 11. " + DECK.slides[current].title;
+    `Слайд ${current + 1} з ${slides.length}. ${DECK.slides[current].title}`;
   document.title = DECK.slides[current].title + " · Аляксей Картыннік";
-  if (updateHash) {
-    try {
-      history.replaceState(null, "", "#slide-" + (current + 1));
-    } catch (e) {}
-  }
+  if (updateHash) history.replaceState(null, "", "#slide-" + (current + 1));
   if ($("notes-dialog").open) renderNotes();
   if ($("sources-dialog").open) renderSources(allSources);
+  if (clapNode) clapNode.port.postMessage({ type: "reset-pair" });
+  startAnimation();
   window.scrollTo({ top: 0, behavior: "instant" });
 }
 function showDialog(id) {
   document.querySelectorAll("dialog[open]").forEach((d) => d.close());
+  if (clapNode) clapNode.port.postMessage({ type: "reset-pair" });
   $(id).showModal();
 }
 function renderNotes() {
-  const s = DECK.slides[current],
-    t = timings[current];
   $("notes-title").textContent =
-    String(current + 1).padStart(2, "0") + " · " + s.title;
-  $("notes-meta").innerHTML =
-    "<span>" +
-    fmt(t.start) +
-    "–" +
-    fmt(t.end) +
-    "</span><span>·</span><span>" +
-    s.duration +
-    " с на слайд</span>";
-  $("notes-copy").innerHTML = s.notes
+    String(current + 1).padStart(2, "0") + ". " + DECK.slides[current].title;
+  $("notes-copy").innerHTML = DECK.slides[current].notes
     .map((p) => "<p>" + escapeHTML(p) + "</p>")
     .join("");
-  $("notes-prev").disabled = current === 0;
-  $("notes-next").disabled = current === 10;
-  $("notes-dialog").scrollTop = 0;
-}
-function openNotes() {
-  renderNotes();
-  showDialog("notes-dialog");
 }
 function renderSources(all = false) {
   allSources = all;
   $("sources-current").setAttribute("aria-pressed", String(!all));
   $("sources-all").setAttribute("aria-pressed", String(all));
-  const refs = all
-    ? DECK.sources
-    : DECK.sources.filter((s) => DECK.slides[current].refs.includes(s.id));
-  $("source-list").innerHTML = refs
-    .map(
-      (s) =>
-        '<li class="source-item"><span class="source-id">[' +
-        s.id +
-        ']</span><div><div class="source-author">' +
-        escapeHTML(s.author) +
-        '</div><a class="source-title" target="_blank" rel="noopener noreferrer" href="' +
-        escapeHTML(s.url) +
-        '">' +
-        escapeHTML(s.title) +
-        ' ↗</a><p class="source-note">' +
-        escapeHTML(s.note) +
-        "</p></div></li>",
-    )
-    .join("");
-  $("sources-dialog").scrollTop = 0;
+  const ids = all ? Object.keys(DECK.sources) : DECK.slides[current].refs;
+  $("source-list").innerHTML = ids.length
+    ? ids
+        .map((id) => {
+          const s = DECK.sources[id];
+          return (
+            "<li>" +
+            (s.url
+              ? '<a target="_blank" rel="noopener noreferrer" href="' +
+                escapeHTML(s.url) +
+                '">' +
+                escapeHTML(s.title) +
+                " ↗</a>"
+              : "<b>" + escapeHTML(s.title) + "</b>") +
+            "<p>" +
+            escapeHTML(s.note) +
+            "</p></li>"
+          );
+        })
+        .join("")
+    : "<li>Спасылка і QR-код вядуць да гэтай прэзентацыі.</li>";
 }
-function openSources(all = false) {
-  renderSources(all);
+function openSources() {
+  renderSources(false);
   showDialog("sources-dialog");
 }
 function openOverview() {
   $("overview-grid").innerHTML = DECK.slides
     .map(
       (s, i) =>
-        '<button class="overview-item ' +
-        (i === current ? "current" : "") +
-        '" data-go="' +
-        i +
-        '" ' +
-        (i === current ? 'aria-current="true"' : "") +
-        "><span>" +
-        String(i + 1).padStart(2, "0") +
-        " / 11</span><strong>" +
-        escapeHTML(s.title) +
-        "</strong><small>" +
-        fmt(timings[i].start) +
-        "–" +
-        fmt(timings[i].end) +
-        "</small></button>",
+        `<button data-go="${i}" aria-current="${i === current}"><b>${String(i + 1).padStart(2, "0")}</b><span>${escapeHTML(s.title)}</span></button>`,
     )
     .join("");
   showDialog("overview-dialog");
-}
-function toast(message) {
-  $("toast").textContent = message;
-  $("toast").classList.add("visible");
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => $("toast").classList.remove("visible"), 3200);
 }
 async function fullScreen() {
   try {
     if (document.fullscreenElement) await document.exitFullscreen();
     else if (document.documentElement.requestFullscreen)
       await document.documentElement.requestFullscreen();
-    else toast("Поўны экран даступны праз меню браўзера.");
-  } catch (e) {
-    toast("Адкрыйце файл у асобнай укладцы або выкарыстоўвайце F11.");
+    else toast("Выкарыстайце поўны экран у меню браўзера.");
+  } catch {
+    toast("Поўны экран недаступны. Выкарыстайце меню браўзера.");
   }
 }
 function toggleTimer() {
-  if (timerRunning) {
-    timerElapsed += Date.now() - timerStarted;
-    timerRunning = false;
-  } else {
-    timerStarted = Date.now();
-    timerRunning = true;
-  }
+  if (timerRunning) timerElapsed += Date.now() - timerStart;
+  else timerStart = Date.now();
+  timerRunning = !timerRunning;
   updateTimer();
-  $("timer").setAttribute("aria-pressed", String(timerRunning));
-  $("timer").setAttribute(
-    "aria-label",
-    timerRunning ? "Прыпыніць таймер" : "Запусціць таймер",
-  );
-  toast(timerRunning ? "Таймер запушчаны" : "Таймер прыпынены");
 }
 function updateTimer() {
-  const elapsed = timerElapsed + (timerRunning ? Date.now() - timerStarted : 0),
-    left = 900 - Math.floor(elapsed / 1000);
-  $("timer").textContent = fmt(left);
-  $("timer").classList.toggle("over", left < 0);
-}
-function resetTimer() {
-  timerElapsed = 0;
-  timerRunning = false;
-  timerStarted = 0;
-  $("timer").setAttribute("aria-pressed", "false");
-  $("timer").setAttribute("aria-label", "Запусціць таймер на 15 хвілін");
-  updateTimer();
-  toast("Таймер скінуты: 15 хвілін");
-}
-$("prev").addEventListener("click", () => go(current - 1));
-$("next").addEventListener("click", () => go(current + 1));
-$("notes-prev").addEventListener("click", () => go(current - 1));
-$("notes-next").addEventListener("click", () => go(current + 1));
-$("notes-btn").addEventListener("click", openNotes);
-$("sources-btn").addEventListener("click", () => openSources());
-$("overview-btn").addEventListener("click", openOverview);
-$("fullscreen").addEventListener("click", fullScreen);
-$("help-btn").addEventListener("click", () => showDialog("help-dialog"));
-$("timer").addEventListener("click", toggleTimer);
-$("timer-reset").addEventListener("click", resetTimer);
-$("sources-current").addEventListener("click", () => renderSources(false));
-$("sources-all").addEventListener("click", () => renderSources(true));
-document
-  .querySelectorAll("[data-sources]")
-  .forEach((b) => b.addEventListener("click", () => openSources()));
-document
-  .querySelectorAll("[data-all-sources]")
-  .forEach((b) => b.addEventListener("click", () => openSources(true)));
-document
-  .querySelectorAll("[data-close]")
-  .forEach((b) =>
-    b.addEventListener("click", () => b.closest("dialog").close()),
+  const n = Math.floor(
+    (timerElapsed + (timerRunning ? Date.now() - timerStart : 0)) / 1000,
   );
-document.querySelectorAll("dialog").forEach((d) =>
+  $("timer").textContent =
+    String(Math.floor(n / 60)).padStart(2, "0") +
+    ":" +
+    String(n % 60).padStart(2, "0");
+  $("timer").setAttribute("aria-pressed", String(timerRunning));
+}
+function animationFrame() {
+  if (document.hidden) return;
+  if (current === 2) {
+    const tokens = [...document.querySelectorAll(".token-strip span")];
+    const p = autoStep % 14;
+    tokens.forEach((t, i) =>
+      t.classList.toggle("lit", p < 6 ? i === p : false),
+    );
+    const words = [
+      "Яна",
+      "Яна гучыць",
+      "Яна гучыць у",
+      "Яна гучыць у нашых",
+      "Яна гучыць у нашых размовах.",
+    ];
+    $("generated-text").textContent = words[p < 6 ? 0 : Math.min(p - 6, 4)];
+    const caret = document.createElement("span");
+    caret.className = "caret";
+    $("generated-text").append(caret);
+  } else if (current === 3) {
+    const flour = Math.floor(autoStep / 5) % 2 === 0;
+    $("context-clue").textContent = $("attention-source").textContent = flour
+      ? "пшанічная"
+      : "невыносная";
+    $("context-result").textContent = flour
+      ? "мука́ · прадукт"
+      : "му́ка · пакута";
+  }
+  autoStep++;
+}
+function startAnimation() {
+  clearInterval(autoTimer);
+  autoStep = 0;
+  document.body.classList.toggle("motion-paused", !motionEnabled);
+  $("motion").textContent = motionEnabled
+    ? "Анімацыя: укл."
+    : "Анімацыя: паўза";
+  $("motion").setAttribute("aria-pressed", String(motionEnabled));
+  animationFrame();
+  if (motionEnabled && !document.hidden && (current === 2 || current === 3))
+    autoTimer = setInterval(animationFrame, 1000);
+}
+$("motion").addEventListener("click", () => {
+  motionEnabled = !motionEnabled;
+  startAnimation();
+});
+reduceMotion.addEventListener("change", (e) => {
+  motionEnabled = !e.matches;
+  startAnimation();
+});
+$("prev").onclick = () => go(current - 1);
+$("next").onclick = () => go(current + 1);
+$("notes-prev").onclick = () => go(current - 1);
+$("notes-next").onclick = () => go(current + 1);
+$("notes").onclick = () => {
+  renderNotes();
+  showDialog("notes-dialog");
+};
+$("sources").onclick = openSources;
+$("overview").onclick = openOverview;
+$("fullscreen").onclick = fullScreen;
+$("timer").onclick = toggleTimer;
+$("help").onclick = () => showDialog("help-dialog");
+$("sources-current").onclick = () => renderSources(false);
+$("sources-all").onclick = () => renderSources(true);
+$("overview-grid").onclick = (e) => {
+  const b = e.target.closest("[data-go]");
+  if (b) {
+    $("overview-dialog").close();
+    go(Number(b.dataset.go));
+  }
+};
+for (const b of document.querySelectorAll("[data-sources]"))
+  b.onclick = openSources;
+for (const b of document.querySelectorAll("[data-close]"))
+  b.onclick = () => b.closest("dialog").close();
+for (const d of document.querySelectorAll("dialog")) {
+  d.addEventListener("close", () => {
+    if (clapNode) clapNode.port.postMessage({ type: "reset-pair" });
+  });
   d.addEventListener("click", (e) => {
     const r = d.getBoundingClientRect();
     if (
@@ -226,23 +231,27 @@ document.querySelectorAll("dialog").forEach((d) =>
         e.clientY > r.bottom)
     )
       d.close();
-  }),
-);
-$("overview-grid").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-go]");
-  if (b) {
-    $("overview-dialog").close();
-    go(Number(b.dataset.go));
-  }
-});
+  });
+}
 document.addEventListener("keydown", (e) => {
-  if (document.querySelector("dialog[open]")) return;
-  if (e.target.matches('input,textarea,select,[contenteditable="true"]'))
+  const shortcut = e.code?.startsWith("Key")
+    ? e.code.slice(3).toLowerCase()
+    : e.key.toLowerCase();
+  if (shortcut === "m" && e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey) {
+    e.preventDefault();
+    stopMicrophone();
     return;
-  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  }
+  if (
+    document.querySelector("dialog[open]") ||
+    e.target.matches('input,textarea,select,[contenteditable="true"]') ||
+    e.ctrlKey ||
+    e.metaKey ||
+    e.altKey
+  )
+    return;
+  if (e.repeat) return;
   const key = e.key.toLowerCase();
-  const shortcut =
-    e.code && e.code.startsWith("Key") ? e.code.slice(3).toLowerCase() : key;
   if ((key === " " || key === "enter") && e.target.closest("button,a")) return;
   if (["arrowright", "arrowdown", "pagedown", " "].includes(key)) {
     e.preventDefault();
@@ -255,172 +264,32 @@ document.addEventListener("keydown", (e) => {
     go(0);
   } else if (key === "end") {
     e.preventDefault();
-    go(10);
+    go(slides.length - 1);
   } else if (shortcut === "f") fullScreen();
-  else if (shortcut === "n") openNotes();
-  else if (shortcut === "s") openSources();
   else if (shortcut === "o") openOverview();
+  else if (shortcut === "n") {
+    renderNotes();
+    showDialog("notes-dialog");
+  } else if (shortcut === "s") openSources();
   else if (shortcut === "t") toggleTimer();
+  else if (shortcut === "m") showDialog("mic-dialog");
   else if (key === "?") showDialog("help-dialog");
 });
-$("file-count").addEventListener("input", (e) => {
-  const n = Number(e.target.value),
-    m = n % 10,
-    h = n % 100,
-    word =
-      m === 1 && h !== 11
-        ? "файл"
-        : m >= 2 && m <= 4 && (h < 12 || h > 14)
-          ? "файлы"
-          : "файлаў";
-  $("plural-result").textContent = n + " " + word;
-});
-const terms = {
-  branch: [
-    "branch",
-    "галіна · адгалінаванне · галіна Git",
-    "Якое паняцце маецца на ўвазе: структура даных, шлях выканання ці галіна Git?",
-  ],
-  llm: [
-    "large language model",
-    "вялікая моўная мадэль",
-    "Дадаць азначэнне паняцця, прыклад ужывання і дапушчальныя скарачэнні.",
-  ],
-  token: [
-    "token",
-    "маркёр · пазнака Samsung",
-    "Ці супадае гэты сэнс з паняццем токена ў LLM? Адпаведнік патрабуе праверкі кантэксту.",
-  ],
-};
-document.querySelectorAll("[data-term]").forEach((b) =>
-  b.addEventListener("click", () => {
-    document
-      .querySelectorAll("[data-term]")
-      .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-    const t = terms[b.dataset.term];
-    $("term-en").textContent = t[0];
-    $("term-be").textContent = t[1];
-    $("term-question").textContent = t[2];
-  }),
-);
-const rag = {
-  none: [
-    "Без дадатковага матэрыялу",
-    "Правяраем, што мадэль можа адказаць сама і ці прызнае недахоп ведаў.",
-  ],
-  search: [
-    "Пошук + адказ мадэлі · RAG",
-    "Ці знойдзены патрэбны тэкст і ці сапраўды ён падтрымлівае адказ?",
-  ],
-  expert: [
-    "Патрэбны ўрывак выбраў эксперт",
-    "Правяраем інтэрпрэтацыю пры наяўнасці патрэбнай крыніцы. Аддзяляем яе ад якасці пошуку.",
-  ],
-};
-document.querySelectorAll("[data-rag]").forEach((b) =>
-  b.addEventListener("click", () => {
-    document
-      .querySelectorAll("[data-rag]")
-      .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-    const r = rag[b.dataset.rag];
-    $("rag-title").textContent = r[0];
-    $("rag-text").textContent = r[1];
-  }),
-);
-const chartRows = [
-  ["NLLB-200", "3.3B", 29.23, 31.22],
-  ["Gemma-4", "12B-IT", 27.78, 31.4],
-  ["TranslateGemma", "12B-IT", 28.25, 32.63],
-];
-const chartX = 278,
-  chartW = 675,
-  chartY = 21,
-  chartBottom = 352;
-let chartMarkup = "";
-for (let tick = 0; tick <= 35; tick += 5) {
-  const x = chartX + (tick / 35) * chartW;
-  chartMarkup +=
-    '<line x1="' +
-    x +
-    '" y1="' +
-    chartY +
-    '" x2="' +
-    x +
-    '" y2="' +
-    chartBottom +
-    '" stroke="' +
-    (tick === 0 ? "#bab8b2" : "#e7e4e0") +
-    '" stroke-width="1"/><text x="' +
-    x +
-    '" y="390" text-anchor="middle" font-size="19" fill="#6b6a70">' +
-    tick +
-    "</text>";
-}
-chartRows.forEach((r, i) => {
-  const y = 43 + i * 112;
-  chartMarkup +=
-    '<text x="0" y="' +
-    (y + 19) +
-    '" font-size="27" font-weight="600" fill="#19191c">' +
-    r[0] +
-    '</text><text x="0" y="' +
-    (y + 50) +
-    '" font-size="22" fill="#64646b">' +
-    r[1] +
-    "</text>";
-  [r[2], r[3]].forEach((v, j) => {
-    const width = (v / 35) * chartW,
-      by = y + j * 37;
-    chartMarkup +=
-      '<rect fill="' +
-      (j ? "#cc203c" : "#aaabb1") +
-      '" class="' +
-      (j ? "bar-after" : "bar-before") +
-      '" x="' +
-      chartX +
-      '" y="' +
-      by +
-      '" width="' +
-      width +
-      '" height="26" rx="3"/><text class="' +
-      (j ? "after-value" : "before-value") +
-      '" x="' +
-      (chartX + width + 11) +
-      '" y="' +
-      (by + 22) +
-      '" font-size="23" font-weight="600" fill="' +
-      (j ? "#cc203c" : "#626269") +
-      '">' +
-      v.toFixed(2).replace(".", ",") +
-      "</text>";
-  });
-});
-$("remova-plot").innerHTML = chartMarkup;
-document.querySelectorAll("[data-chart]").forEach((b) =>
-  b.addEventListener("click", () => {
-    document
-      .querySelectorAll("[data-chart]")
-      .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-    $("remova-chart").classList.toggle(
-      "baseline-only",
-      b.dataset.chart === "before",
-    );
-  }),
-);
 let swipeStart = null;
 $("viewport").addEventListener(
   "touchstart",
   (e) => {
-    if (e.touches.length === 1 && !e.target.closest("button,input,a"))
-      swipeStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    else swipeStart = null;
+    swipeStart =
+      e.touches.length === 1 && !e.target.closest("button,input,a")
+        ? { x: e.touches[0].clientX, y: e.touches[0].clientY }
+        : null;
   },
   { passive: true },
 );
 $("viewport").addEventListener(
   "touchend",
   (e) => {
-    if (!swipeStart) return;
+    if (!swipeStart || !e.changedTouches.length) return;
     const dx = e.changedTouches[0].clientX - swipeStart.x,
       dy = e.changedTouches[0].clientY - swipeStart.y;
     if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.5)
@@ -430,18 +299,188 @@ $("viewport").addEventListener(
   { passive: true },
 );
 window.addEventListener("resize", fit);
-document.addEventListener("fullscreenchange", () => {
-  fit();
-  $("fullscreen").setAttribute(
-    "aria-label",
-    document.fullscreenElement ? "Выйсці з поўнага экрана" : "Поўны экран",
-  );
-});
+document.addEventListener("fullscreenchange", fit);
 window.addEventListener("hashchange", () => {
   const n = Number(location.hash.match(/^#slide-(\d+)$/)?.[1]);
-  if (n >= 1 && n <= 11) go(n - 1, false);
+  if (n >= 1 && n <= slides.length) go(n - 1, false);
 });
+// Microphone access is requested only in response to the explicit Start button.
+let micStream = null,
+  audioContext = null,
+  clapNode = null,
+  micPending = false,
+  micGeneration = 0;
+let clapCount = 0;
+function microphoneUI(on) {
+  $("mic").classList.toggle("listening", on);
+  $("mic").textContent = on ? "Мікрафон: укл." : "Мікрафон";
+  $("mic-start").disabled = on || micPending;
+  $("mic-stop").disabled = !on && !micPending;
+  $("mic-recalibrate").disabled = !on;
+}
+function resetCalibration() {
+  if (!clapNode) return;
+  clapNode.port.postMessage({ type: "calibrate" });
+  $("mic-status").textContent = "Каліброўка: 2 секунды цішыні…";
+  $("clap-preview").textContent = "Праверка: чакаем завяршэння каліброўкі.";
+}
+async function startMicrophone() {
+  if (micPending || micStream) return;
+  if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
+    $("mic-status").textContent =
+      "Для мікрафона патрэбны HTTPS або localhost і браўзер з падтрымкай аўдыя.";
+    return;
+  }
+  micPending = true;
+  const generation = ++micGeneration;
+  microphoneUI(false);
+  $("mic-status").textContent = "Чакаем дазволу на мікрафон…";
+  let stream, context;
+  try {
+    context = new (window.AudioContext || window.webkitAudioContext)();
+    await context.resume();
+    stream = await navigator.mediaDevices.getUserMedia({
+      audio: {
+        echoCancellation: false,
+        noiseSuppression: false,
+        autoGainControl: false,
+      },
+      video: false,
+    });
+    if (generation !== micGeneration) {
+      stream.getTracks().forEach((t) => t.stop());
+      await context.close();
+      return;
+    }
+    if (!context.audioWorklet) throw new Error("unsupported");
+    await context.audioWorklet.addModule(
+      new URL("js/clap-worklet.js", document.baseURI).href,
+    );
+    if (generation !== micGeneration) {
+      stream.getTracks().forEach((t) => t.stop());
+      await context.close();
+      return;
+    }
+    const source = context.createMediaStreamSource(stream);
+    const highpass = context.createBiquadFilter();
+    highpass.type = "highpass";
+    highpass.frequency.value = 900;
+    const node = new AudioWorkletNode(context, "clap-processor", {
+      processorOptions: { sensitivity: Number($("sensitivity").value) },
+    });
+    const silent = context.createGain();
+    silent.gain.value = 0;
+    source
+      .connect(highpass)
+      .connect(node)
+      .connect(silent)
+      .connect(context.destination);
+    micStream = stream;
+    audioContext = context;
+    clapNode = node;
+    clapCount = 0;
+    node.port.onmessage = ({ data }) => {
+      if (node !== clapNode) return;
+      if (data.type === "level")
+        $("mic-meter").style.width = Math.min(100, data.level * 500) + "%";
+      if (data.type === "ready")
+        $("mic-status").textContent =
+          "Гатова. Плясніце двойчы з паўзай 0,22–0,70 секунды.";
+      if (data.type === "clap")
+        $("clap-preview").textContent = "Адно плясканне. Чакаем другое…";
+      if (data.type === "expired")
+        $("clap-preview").textContent =
+          "Другое плясканне не прагучала своечасова. Паспрабуйце яшчэ.";
+      if (data.type === "double") {
+        if (document.hidden) return;
+        if (document.querySelector("dialog[open]")) {
+          clapCount++;
+          $("clap-preview").textContent =
+            `Распазнана падвойнае плясканне (${clapCount}). Зачыніце акно, каб кіраваць слайдамі.`;
+        } else if (current < slides.length - 1) {
+          go(current + 1);
+          toast("Падвойнае плясканне · наступны слайд");
+        }
+      }
+    };
+    node.onprocessorerror = () => {
+      stopMicrophone();
+      $("mic-status").textContent =
+        "Апрацоўка гуку спынілася. Уключыце мікрафон зноў.";
+    };
+    stream.getAudioTracks().forEach((t) =>
+      t.addEventListener("ended", () => {
+        if (micStream === stream) {
+          stopMicrophone();
+          $("mic-status").textContent =
+            "Мікрафон адключаны. Можна ўключыць зноў.";
+        }
+      }),
+    );
+    micPending = false;
+    microphoneUI(true);
+    resetCalibration();
+  } catch (e) {
+    stream?.getTracks().forEach((t) => t.stop());
+    if (context && context.state !== "closed")
+      await context.close().catch(() => {});
+    if (generation !== micGeneration) return;
+    micPending = false;
+    micStream = null;
+    audioContext = null;
+    clapNode = null;
+    microphoneUI(false);
+    const messages = {
+      NotAllowedError:
+        "Доступ да мікрафона забаронены. Дазвольце яго ў наладах сайта і паспрабуйце зноў.",
+      NotFoundError:
+        "Мікрафон не знойдзены. Падключыце мікрафон і паспрабуйце зноў.",
+      NotReadableError:
+        "Мікрафон заняты або недаступны. Праверце яго падключэнне.",
+    };
+    $("mic-status").textContent =
+      messages[e.name] ||
+      "Не ўдалося запусціць мікрафон. Адкрыйце прэзентацыю праз HTTPS у сучасным браўзеры.";
+  }
+}
+function stopMicrophone() {
+  ++micGeneration;
+  micPending = false;
+  const stream = micStream,
+    context = audioContext,
+    node = clapNode;
+  micStream = null;
+  audioContext = null;
+  clapNode = null;
+  if (node) {
+    node.port.onmessage = null;
+    node.disconnect();
+    node.port.close();
+  }
+  stream?.getTracks().forEach((t) => t.stop());
+  if (context && context.state !== "closed") context.close().catch(() => {});
+  microphoneUI(false);
+  $("mic-status").textContent = "Мікрафон выключаны.";
+  $("mic-meter").style.width = "0%";
+  $("clap-preview").textContent = "Праверка: пакуль няма плясканняў.";
+}
+$("mic").onclick = () => showDialog("mic-dialog");
+$("mic-start").onclick = startMicrophone;
+$("mic-stop").onclick = stopMicrophone;
+$("mic-recalibrate").onclick = resetCalibration;
+$("sensitivity").oninput = (e) => {
+  $("sensitivity-value").textContent = e.target.value + " / 5";
+  clapNode?.port.postMessage({
+    type: "sensitivity",
+    value: Number(e.target.value),
+  });
+};
+document.addEventListener("visibilitychange", () => {
+  if (clapNode) clapNode.port.postMessage({ type: "reset-pair" });
+  startAnimation();
+});
+window.addEventListener("pagehide", stopMicrophone);
 fit();
 const initial = Number(location.hash.match(/^#slide-(\d+)$/)?.[1]);
-go(initial >= 1 && initial <= 11 ? initial - 1 : 0, false);
-setInterval(updateTimer, 250);
+go(initial >= 1 && initial <= slides.length ? initial - 1 : 0, false);
+setInterval(updateTimer, 500);
