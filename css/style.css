@@ -552,19 +552,6 @@ h3 {
   margin-top: 40px;
   border-radius: 7px;
 }
-.join p {
-  font-size: 25px;
-  line-height: 1.4;
-}
-.join p > span {
-  display: block;
-  color: var(--red);
-  font-size: 17px;
-  font-weight: 600;
-  margin-bottom: 10px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
 .join > a {
   font-size: 25px;
   color: var(--red);
@@ -1479,12 +1466,6 @@ dialog a {
     margin-top: 32px;
     padding: 23px;
     gap: 22px;
-  }
-  .join p {
-    font-size: 20px;
-  }
-  .join p > span {
-    font-size: 12px;
   }
   .join a {
     white-space: normal;
