@@ -549,7 +549,7 @@ h3 {
   gap: 30px;
   background: var(--soft);
   padding: 28px 34px;
-  margin-top: 55px;
+  margin-top: 40px;
   border-radius: 7px;
 }
 .join p {
@@ -2207,5 +2207,344 @@ dialog a {
   }
   .nn-signal {
     animation: none !important;
+  }
+}
+.project-head {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+.project-logo {
+  width: 136px;
+  height: 136px;
+  flex: none;
+  object-fit: cover;
+  border-radius: 20px;
+  background: var(--soft);
+}
+.project-head h3 {
+  margin-top: 8px;
+}
+.bridge {
+  display: grid;
+  grid-template-columns: 1fr 72px 250px 72px 1fr;
+  align-items: center;
+  column-gap: 26px;
+  margin-top: 44px;
+}
+.bridge article {
+  padding-top: 24px;
+  border-top: 3px solid var(--red);
+}
+.bridge h3 {
+  margin-top: 14px;
+}
+.bridge article p:not(.label) {
+  font-size: 23px;
+  line-height: 1.45;
+  color: var(--muted);
+  margin-top: 14px;
+}
+.bridge-link {
+  display: block;
+  width: 72px;
+  height: 24px;
+  color: var(--ink);
+}
+.bridge-me {
+  text-align: center;
+}
+.bridge-me img {
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: grayscale(1);
+}
+.bridge-me b {
+  display: block;
+  font-size: 30px;
+  letter-spacing: -0.6px;
+  margin-top: 16px;
+}
+.bridge-me span {
+  display: block;
+  font-size: 19px;
+  line-height: 1.35;
+  color: var(--muted);
+  margin-top: 6px;
+}
+.bridge-directions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 34px;
+  font-size: 23px;
+  line-height: 1.45;
+}
+.bridge-directions p {
+  display: flex;
+  gap: 14px;
+  align-items: baseline;
+}
+.bridge-directions b {
+  flex: none;
+  color: var(--red);
+  font-weight: 700;
+}
+.bridge-slide .takeaway {
+  margin-top: 28px;
+}
+.data-contrast {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  margin-top: 40px;
+}
+.data-contrast article {
+  padding-top: 24px;
+  border-top: 3px solid var(--line);
+}
+.data-contrast article + article {
+  border-top-color: var(--red);
+}
+.data-contrast article + article .label {
+  color: var(--red);
+}
+.data-contrast ul {
+  list-style: none;
+  margin: 18px 0 0;
+  padding: 0;
+}
+.data-contrast li {
+  position: relative;
+  font-size: 24px;
+  line-height: 1.42;
+  padding-left: 26px;
+  color: var(--muted);
+}
+.data-contrast li + li {
+  margin-top: 14px;
+}
+.data-contrast li:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--line);
+}
+.data-contrast article + article li {
+  color: var(--ink);
+}
+.data-contrast article + article li:before {
+  background: var(--red);
+}
+.data-projects {
+  margin-top: 40px;
+  border-top: 1px solid var(--line);
+  padding-top: 24px;
+}
+.data-projects > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 14px;
+  margin-top: 16px;
+}
+.data-projects span {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 18px;
+  background: var(--soft);
+  border-radius: 8px;
+  font-size: 21px;
+  white-space: nowrap;
+}
+.data-projects span b {
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .project-head {
+    gap: 18px;
+  }
+  .project-logo {
+    width: 84px;
+    height: 84px;
+    border-radius: 14px;
+  }
+  .project-head h3 {
+    margin-top: 6px;
+  }
+  .bridge {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    margin-top: 30px;
+  }
+  .bridge-link {
+    display: none;
+  }
+  .bridge h3 {
+    font-size: 26px;
+  }
+  .bridge h3 br,
+  .bridge article p:not(.label) br,
+  .bridge-me span br {
+    display: none;
+  }
+  .bridge article p:not(.label) {
+    font-size: 19px;
+  }
+  .bridge-me {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    column-gap: 18px;
+    align-items: center;
+    text-align: left;
+  }
+  .bridge-me img {
+    width: 88px;
+    height: 88px;
+    margin: 0;
+    grid-row: 1/3;
+  }
+  .bridge-me b {
+    font-size: 22px;
+    margin-top: 0;
+    align-self: end;
+  }
+  .bridge-me span {
+    font-size: 16px;
+    margin-top: 2px;
+    align-self: start;
+  }
+  .bridge-directions {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 26px;
+    font-size: 19px;
+  }
+  .data-contrast {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    margin-top: 30px;
+  }
+  .data-contrast li {
+    font-size: 19px;
+    padding-left: 20px;
+  }
+  .data-contrast li:before {
+    width: 8px;
+    height: 8px;
+  }
+  .data-projects {
+    margin-top: 28px;
+    padding-top: 18px;
+  }
+  .data-projects > div {
+    gap: 8px 10px;
+  }
+  .data-projects span {
+    font-size: 15px;
+    padding: 8px 12px;
+    white-space: normal;
+  }
+}
+.holas {
+  display: grid;
+  grid-template-columns: 720px 1fr;
+  gap: 60px;
+  align-items: start;
+  margin-top: 36px;
+}
+.holas-art img {
+  display: block;
+  width: 720px;
+  height: auto;
+  border-radius: 10px;
+}
+.holas-art figcaption {
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--muted);
+}
+.holas-copy .lead {
+  font-size: 27px;
+}
+.holas-features {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+}
+.holas-features li {
+  position: relative;
+  font-size: 24px;
+  line-height: 1.4;
+  padding-left: 26px;
+}
+.holas-features li + li {
+  margin-top: 8px;
+}
+.holas-features li:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--red);
+}
+.holas-team {
+  margin-top: 22px;
+  font-size: 20px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.holas-copy > a {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 25px;
+  color: var(--red);
+  text-decoration: none;
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .holas {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    margin-top: 30px;
+  }
+  .holas-art img {
+    width: 100%;
+  }
+  .holas-art figcaption {
+    font-size: 13px;
+    margin-top: 8px;
+  }
+  .holas-copy .lead {
+    font-size: 22px;
+  }
+  .holas-copy .lead br {
+    display: none;
+  }
+  .holas-features li {
+    font-size: 19px;
+    padding-left: 20px;
+  }
+  .holas-features li:before {
+    width: 8px;
+    height: 8px;
+  }
+  .holas-team {
+    font-size: 16px;
+    margin-top: 18px;
+  }
+  .holas-copy > a {
+    font-size: 20px;
   }
 }
