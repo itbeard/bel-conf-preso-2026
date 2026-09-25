@@ -751,39 +751,6 @@ h3 {
 .stress-demo h3 {
   font-size: 28px;
 }
-.institution-rows {
-  display: grid;
-  gap: 0;
-  margin-top: 39px;
-}
-.institution-rows article {
-  display: flex;
-  gap: 35px;
-  border-top: 1px solid var(--line);
-  padding: 19px 0;
-}
-.institution-rows .n {
-  color: var(--red);
-  font-size: 25px;
-  padding-top: 4px;
-}
-.institution-rows article > div {
-  display: grid;
-  grid-template-columns: 480px 1fr;
-  gap: 38px;
-  align-items: start;
-}
-.institution-rows h3 {
-  font-size: 29px;
-}
-.institution-rows p {
-  font-size: 25px;
-  line-height: 1.4;
-  color: var(--muted);
-}
-.institution-rows + .takeaway {
-  margin-top: 24px;
-}
 .terminology {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1540,30 +1507,7 @@ dialog a {
   .stress-demo > div:last-child > p {
     font-size: 20px;
   }
-  .institution-rows {
-    margin-top: 30px;
-  }
-  .institution-rows article {
-    gap: 18px;
-    padding: 23px 0;
-  }
-  .institution-rows article > div {
-    display: block;
-  }
-  .institution-rows h3 {
-    font-size: 24px;
-  }
-  .institution-rows p {
-    font-size: 20px;
-    margin-top: 12px;
-  }
-  .institution-rows .n {
-    font-size: 20px;
-  }
-  .institution-rows + .takeaway {
-    font-size: 18px;
-  }
-  .term-example {
+                .term-example {
     padding-left: 22px;
   }
   .term-example h3 {
@@ -2527,5 +2471,18 @@ dialog a {
   }
   .holas-copy > a {
     font-size: 20px;
+  }
+}
+.divider-slide h1 {
+  margin-top: 170px;
+  font-size: 150px;
+  letter-spacing: -8px;
+  line-height: 1;
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .divider-slide h1 {
+    margin-top: 22svh;
+    font-size: 46px;
+    letter-spacing: -2px;
   }
 }
